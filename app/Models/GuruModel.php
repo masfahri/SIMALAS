@@ -10,12 +10,36 @@ class GuruModel extends Model
     use HasFactory;
 
     protected $table = 'Guru';
+    // /**
+    //  * The attributes that aren't mass assignable.
+    //  *
+    //  * @var array
+    //  */
+    // protected $guarded = ['user_id'];
     protected $fillable = [
-        'kd_guru',
-        'user_id',
         'nip',
+        'user_id',
+        'email',
+        'nomor_telf',
+        'jenis_kelamin',
         'flag',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'nomor_telf',
         'pas_foto',
+        'agama',
+        'status_nikah',
+        'nama_ibu',
+        'nama_ayah',
+        'status_kepegawaian',
+        'jenis_ptk',
+        'lembaga_sertifikasi',
+        'no_sk',
+        'tgl_sk',
+        'nuptk',
+        'tmt_tugas',
+        'tugas_tambahan',
+        'created_by'
     ];
 
     public function GuruToUser()

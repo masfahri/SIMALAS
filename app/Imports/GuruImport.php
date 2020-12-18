@@ -16,13 +16,13 @@ use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class GuruImport implements ToModel, WithValidation, WithHeadingRow, WithStartRow
+class GuruImport implements ToModel, WithHeadingRow, WithStartRow
 {
     use Importable;
 
     public function headingRow(): int
     {
-        return 3;
+        return 2;
     }
     
     /**
@@ -30,7 +30,7 @@ class GuruImport implements ToModel, WithValidation, WithHeadingRow, WithStartRo
      */
     public function startRow(): int
     {
-        return 4;
+        return 3;
     }
     
     /**
@@ -44,14 +44,15 @@ class GuruImport implements ToModel, WithValidation, WithHeadingRow, WithStartRo
         try {
             DB::beginTransaction();
             $user = User::create([
-                'name'      => $row['name'],
+                'name'      => $row['nama'],
                 'email'     => $row['email'],
-                'password'  => Hash::make($row[2])
+                'password'  => Hash::make('rahasia')
             ]);
             $user->assignRole('Guru');
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollback();
+            dd($th);
         }
         return new GuruModel([
             'kd_guru'   => $kdGuru,
@@ -66,27 +67,27 @@ class GuruImport implements ToModel, WithValidation, WithHeadingRow, WithStartRo
             'nama_ayah'     => $row['nama_ayah'],
             'status_kepegawaian' => $row['status_kepegawaian'],
             'jenis_ptk'          => $row['jenis_ptk'],
-            'lemabaga_sertifikasi'  => $row['lemabaga_sertifikasi'],
-            'no_sk'                 => $row['no_sk'],
-            'tgl_sk'                => $row['tgl_sk'],
+            'lemabaga_sertifikasi'  => $row['lembaga_sertifikasi'],
+            'no_sk'                 => $row['nomor_sk'],
+            'tgl_sk'                => $row['tanggal_sk'],
             'nuptk'                 => $row['nuptk'],
             'tmt_tugas'             => $row['tmt_tugas'],
             'tugas_tambahan'        => $row['tugas_tambahan'],
         ]);
     }
 
-    /**
-     * Rules
-     * 
-     * @return Boolean
-     */
-    public function rules(): array
-    {
-        return [
-            '0' => 'required',
-            '1' => 'unique:users,email'
-        ];
-    }
+    // /**
+    //  * Rules
+    //  * 
+    //  * @return Boolean
+    //  */
+    // public function rules(): array
+    // {
+    //     return [
+    //         '0' => 'required',
+    //         '1' => 'unique:users,email'
+    //     ];
+    // }
 
     /**
      * Get Kode Guru Last

@@ -24,7 +24,7 @@ class ImportRequest extends FormRequest
     public function rules()
     {
         return [
-            'file_import' => 'required|max:100000|mimes:xls,xlsx,csv|file'
+            'file_import' => 'required|max:10024|mimes:xls,xlsx,csv|file'
         ];
     }
 

@@ -24,8 +24,13 @@
 
       <!-- Main content -->
       <section class="content">
+          @if (session('success'))
+              <center><span class="badge badge-success w-100" style="padding: 4px; margin: 10px;">{{ session('success') }}</span></center>
+          @endif
+          @if (session('error'))
+              <center><span class="badge badge-danger w-100" style="padding: 4px; margin: 10px;">{{ session('error') }}</span></center>
+          @endif
         <div class="row">
-
           <div class="col-12">
             @component('Components.Admin.Table.guru', [
                 'pageTitle' => $pageTitle,
@@ -35,7 +40,7 @@
                     'import' => route('admin.master.guru.import'),
                     'create' => route('admin.master.guru.create')
                 ),
-                'th'        => array('Name', 'Email', 'Agama', 'Status Nikah', 'Status Kepegawaian', 'Jenis PTK')
+                'th'        => array('Nip', 'Nama', 'Email', 'Foto', 'Aksi')
             ]);
             @endcomponent   
           </div> 

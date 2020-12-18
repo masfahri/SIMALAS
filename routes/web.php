@@ -53,11 +53,11 @@ Route::group(['middleware' => ['role:Admin']], function () {
            {
                 Route::get('/index', [GuruController::class, 'index'])->name('index');
                 Route::get('/create', [GuruController::class, 'create'])->name('create');
-                Route::get('/edit', [GuruController::class, 'edit'])->name('edit');
+                Route::get('/edit/{kd_guru}', [GuruController::class, 'edit'])->name('edit');
 
                 Route::post('/store', [GuruController::class, 'store'])->name('store');
-                Route::post('/update', [GuruController::class, 'update'])->name('update');
-                Route::post('/delete', [GuruController::class, 'delete'])->name('delete');
+                Route::post('/update/{kd_guru}', [GuruController::class, 'update'])->name('update');
+                Route::post('/delete/{kd_guru}', [GuruController::class, 'delete'])->name('delete');
 
                 Route::post('/import', [GuruController::class, 'import'])->name('import');
                 Route::get('/export', [GuruController::class, 'export'])->name('export');
