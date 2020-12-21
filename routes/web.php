@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\GuruController;
+use App\Http\Controllers\Admin\JurusanController;
+use App\Http\Controllers\Admin\KelasController;
+use App\Http\Controllers\Admin\SubKelasController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\auth\RegisterController;
@@ -49,19 +52,49 @@ Route::group(['middleware' => ['role:Admin']], function () {
          */
         Route::name('master.')->prefix('/master')->group(function ()
         {
-           Route::name('guru.')->prefix('/guru')->group(function ()
-           {
+            Route::name('guru.')->prefix('/guru')->group(function ()
+            {
                 Route::get('/index', [GuruController::class, 'index'])->name('index');
                 Route::get('/create', [GuruController::class, 'create'])->name('create');
                 Route::get('/edit/{kd_guru}', [GuruController::class, 'edit'])->name('edit');
 
                 Route::post('/store', [GuruController::class, 'store'])->name('store');
                 Route::post('/update/{kd_guru}', [GuruController::class, 'update'])->name('update');
-                Route::post('/delete/{kd_guru}', [GuruController::class, 'delete'])->name('delete');
+                Route::delete('/delete/{kd_guru}', [GuruController::class, 'destroy'])->name('delete');
 
                 Route::post('/import', [GuruController::class, 'import'])->name('import');
                 Route::get('/export', [GuruController::class, 'export'])->name('export');
-           });
+            });
+            Route::name('kelas.')->prefix('/kelas')->group(function ()
+            {
+                Route::get('/index', [KelasController::class, 'index'])->name('index');
+                Route::get('/create', [KelasController::class, 'create'])->name('create');
+                Route::get('/edit/{kd_kelas}', [KelasController::class, 'edit'])->name('edit');
+
+                Route::post('/store', [KelasController::class, 'store'])->name('store');
+                Route::post('/update/{kd_kelas}', [KelasController::class, 'update'])->name('update');
+                Route::delete('/delete/{kd_kelas}', [KelasController::class, 'destroy'])->name('delete');
+            });
+            Route::name('subkelas.')->prefix('/subkelas')->group(function ()
+            {
+                Route::get('/index', [SubKelasController::class, 'index'])->name('index');
+                Route::get('/create', [SubKelasController::class, 'create'])->name('create');
+                Route::get('/edit/{kd_sub_kelas}', [SubKelasController::class, 'edit'])->name('edit');
+
+                Route::post('/store', [SubKelasController::class, 'store'])->name('store');
+                Route::post('/update/{kd_sub_kelas}', [SubKelasController::class, 'update'])->name('update');
+                Route::delete('/delete/{kd_sub_kelas}', [SubKelasController::class, 'destroy'])->name('delete');
+            });
+            Route::name('jurusan.')->prefix('/jurusan')->group(function ()
+            {
+                Route::get('/index', [JurusanController::class, 'index'])->name('index');
+                Route::get('/create', [JurusanController::class, 'create'])->name('create');
+                Route::get('/edit/{kd_jurusan}', [JurusanController::class, 'edit'])->name('edit');
+
+                Route::post('/store', [JurusanController::class, 'store'])->name('store');
+                Route::post('/update/{kd_jurusan}', [JurusanController::class, 'update'])->name('update');
+                Route::delete('/delete/{kd_jurusan}', [JurusanController::class, 'destroy'])->name('delete');
+            });
         });
          
         Route::get('/dashboard', 'Admin\HomeController@index')->name('index');

@@ -17,6 +17,7 @@ class GuruModel extends Model
     //  */
     // protected $guarded = ['user_id'];
     protected $fillable = [
+        'kd_guru',
         'nip',
         'user_id',
         'email',

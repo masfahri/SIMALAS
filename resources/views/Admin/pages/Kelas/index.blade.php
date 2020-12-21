@@ -13,7 +13,7 @@
                           <ol class="breadcrumb">
                               <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
                               <li class="breadcrumb-item" aria-current="page">Tabel</li>
-                              <li class="breadcrumb-item active" aria-current="page">Data Guru</li>
+                              <li class="breadcrumb-item active" aria-current="page">Data Kelas</li>
                           </ol>
                       </nav>
                   </div>
@@ -32,15 +32,14 @@
           @endif
         <div class="row">
           <div class="col-12">
-            @component('Components.Admin.Table.guru', [
+            @component('Components.Admin.Table.kelas', [
                 'pageTitle' => $pageTitle,
-                'guru'      => $guru,
+                'kelasSubJurusan'     => $kelasSubJurusan,
+                'kelas'     => $kelas,
                 'route'     => array(
-                    'export' => route('admin.master.guru.export'),
-                    'import' => route('admin.master.guru.import'),
-                    'create' => route('admin.master.guru.create')
+                    'create' => route('admin.master.kelas.create')
                 ),
-                'th'        => array('Nip', 'Nama', 'Email', 'Foto', 'Aksi')
+                'th'        => array('Kode Kelas', 'Sub Kelas', 'Jurusan', 'Guru', 'Aksi')
             ]);
             @endcomponent   
           </div> 

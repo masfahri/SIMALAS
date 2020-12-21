@@ -157,17 +157,35 @@ class GuruController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(GuruRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        dd('die');
         try {
-            $guru = $this->guruModel::where('kd_guru')->firstOrFail();
-            dd($guru);
+            $guru = $this->guruModel::where('kd_guru', $id)->first();
             DB::beginTransaction();
-
+            $guru->update([
+                'nip'           => $request->nip,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'tempat_lahir'  => $request->tempat_lahir,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'nomor_telf'    => $request->nomor_telf,
+                'pas_foto'      => $request->pas_foto,
+                'agama'         => $request->agama,
+                'status_nikah'  => $request->status_pernikahan,
+                'nama_ibu'      => $request->nama_ibu,
+                'nama_ayah'     => $request->nama_ayah,
+                'status_kepegawaian'    => $request->status_kepegawaian,
+                'jenis_ptk'     => $request->jenis_ptk,
+                'lembaga_sertifikasi' => $request->lembaga_sertifikasi,
+                'no_sk'         => $request->no_sk,
+                'tgl_sk'        => $request->tgl_sk,
+                'nuptk'         => $request->nuptk,
+                'tmt_tugas'     => $request->tmt_tugas,
+            ]);
             DB::commit();
+            return redirect()->route('admin.master.guru.index')->with(['success' => 'Data : ' . $request->name . ' Berhasil Diubah']);
         } catch (\Throwable $th) {
             DB::rollback();
+            return redirect()->route('admin.master.guru.index')->with(['error' => 'Data <strong> ' . $request->name . ' </strong> Gagal Diubah (<code>'.$th->getMessage().'<code>)']);
         }
     }
 
@@ -179,7 +197,16 @@ class GuruController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $guru = $this->guruModel->where('kd_guru', $id)->firstOrFail();
+            $user = User::find($guru->user_id)->delete();
+            DB::commit();
+            return redirect()->route('admin.master.guru.index')->with(['success' => 'Data : ' . $guru->name . ' Berhasil Diubah']);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->route('admin.master.guru.index')->with(['error' => 'Data Gagal Diubah (<code>'.$th->getMessage().'<code>)']);
+        }
     }
 
     /**
@@ -195,7 +222,6 @@ class GuruController extends Controller
             return redirect()->route('admin.master.guru.index')->with(['success' => 'Berhasil Import Data Guru']);
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $failures = $e->failures();
-            dd($failures);
             session()->flash('error', 'error bos');
             return redirect()->back();
         } 
