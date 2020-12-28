@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 class CRUDServices 
 {
+
     /**
      * handleCreate for Insert Data
      * @param $params
@@ -63,11 +64,7 @@ class CRUDServices
             DB::beginTransaction();
             $request['model']::where($request['where'])->delete();
             DB::commit();
-            if (!empty($request['data']['name'])) {
-                return redirect()->action($request['redirect'])->with(['success' => $request['pageTitle'].': <strong>' . $request['data']['name'] . '</strong> Berhasil Dihapus']);
-            }else{
-                return redirect()->action($request['redirect'])->with(['success' => $request['pageTitle'].': <strong>' . $request['messages'] . '</strong> Berhasil Dihapus']);
-            }
+            return redirect()->back()->with(['success' => $request['pageTitle'].': <strong>' . $request['pageTitle'] . '</strong> Berhasil Dihapus']);
         } catch (\Throwable $th) {
             DB::rollback();
             return redirect()->back()->with(['error' => $th->getMessage()]);

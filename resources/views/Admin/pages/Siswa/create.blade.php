@@ -25,11 +25,10 @@
 
       <!-- Main content -->
       <section class="content">
-        @component('Components.Admin.Form.Guru.create', [
-            'route' => route('admin.master.guru.store'),
+        @component('Components.Admin.Form.Siswa.create', [
+            'route' => route('admin.master.siswa.store'),
             'provinces' => $provinces
         ]);
-            
         @endcomponent
       </section>
       <!-- /.content -->
@@ -54,5 +53,7 @@
     <script src="{{ asset('v1/js/pages/form-validation.js') }}"></script>
     <script src="{{ asset('v1/vendor_components/select2/dist/js/select2.full.js') }}"></script>
 
-    
+    <script>
+        $('.select2').select2();
+    </script>
 @endsection

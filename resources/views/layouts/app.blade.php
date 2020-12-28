@@ -18,7 +18,8 @@
 	<!-- Style-->  
 	<link rel="stylesheet" href="{{ asset('v1/css/style.css') }}">
 	<link rel="stylesheet" href="{{ asset('v1/css/skin_color.css') }}">
-     
+	 
+	@yield('css')
   </head>
 
 <body class="hold-transition light-skin sidebar-mini theme-primary">

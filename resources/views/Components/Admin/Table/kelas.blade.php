@@ -33,14 +33,14 @@
                 {{-- @dd($kelas) --}}
                 @foreach ($kelasSubJurusan as $item)
                 <tr>
-                    <td>{{ $item->kd_kelas }}</td>
-                    <td>{{ $item->SubKelas->name }}</td>
-                    <td>{{ $item->Jurusan->name }}</td>
-                    <td>{{ $item->Guru->User->name }}</td>
+                    <td>{{ $item->kd_kelas }} {{ $item->kd_jurusan == 0 ? '' : $item->Jurusan->name }} - {{ $item->SubKelas->name }}</td>
+                    <td>{{ $item->Guru->GuruToUser->name }}</td>
+                    <td>x Siswa</td>
                     <td>
-                        <center><a href="{{ route('admin.master.guru.edit', $item->kd_guru) }}"><span class="fa fa-edit fa-lg" style="font-size: 20"></span></a>
+                        <a href="#" data-id="{{ $item->id }}" data-toggle="modal" id="edit-kelas" data-target="#modal-edit" data-toggle="tooltip" data-placement="top"><span class="fa fa-edit fa-lg" style="font-size: 20"></span></a>
+                        <a href="#"><span class="fa fa-user fa-lg" style="font-size: 20"></span></a>
                         <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();" href="{{ route('admin.master.guru.delete', $item->kd_guru) }}"><span class="fa fa-trash fa-lg" style="font-size: 20"></span></a></center>
-                        <form id="logout-form" action="{{ route('admin.master.guru.delete', $item->kd_guru) }}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ route('admin.master.kelas.delete', $item->id) }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
                             @method('delete')
                         </form>
@@ -63,7 +63,21 @@
   </div>
   <!-- /.box -->   
   @component('Components.Admin.Modal.create-kelas', [
-      'kelas' => $kelas
+      'kelas'    => $kelas,
+      'jurusan'  => $jurusan,
+      'subKelas' => $subKelas,
+      'guru'     => $guru
+
   ])
       
   @endcomponent
+
+  @component('Components.Admin.Modal.edit-kelas', [
+    'kelas'    => $kelas,
+    'jurusan'  => $jurusan,
+    'subKelas' => $subKelas,
+    'guru'     => $guru
+
+  ])
+    
+    @endcomponent

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\GuruModel;
+use App\Models\SubKelasModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -20,21 +21,21 @@ class KelasSubJurusanModel extends Model
 
     public function Kelas()
     {
-        return $this->hasOne(KelasModel::class, 'kd_kelas');
+        return $this->hasOne(KelasModel::class, 'kd_kelas', 'kd_kelas');
     }
 
     public function SubKelas()
     {
-        return $this->hasOne(SubKelasModel::class, 'kd_sub_kelas');
+        return $this->hasOne(SubKelasModel::class, 'kd_sub_kelas', 'kd_sub_kelas');
     }
 
     public function Guru()
     {
-        return $this->hasOne(GuruModel::class, 'kd_guru');
+        return $this->hasOne(GuruModel::class, 'kd_guru', 'kd_guru');
     }
 
     public function Jurusan()
     {
-        return $this->hasOne(JurusanModel::class, 'kd_jurusan');
+        return $this->hasOne(JurusanModel::class, 'kd_jurusan', 'kd_jurusan');
     }
 }

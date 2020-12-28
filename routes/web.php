@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\Admin\GuruController;
-use App\Http\Controllers\Admin\JurusanController;
-use App\Http\Controllers\Admin\KelasController;
-use App\Http\Controllers\Admin\SubKelasController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\GuruController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\KelasController;
+use App\Http\Controllers\Admin\SiswaController;
+use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\auth\RegisterController;
+use App\Http\Controllers\Admin\SubKelasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,6 +96,22 @@ Route::group(['middleware' => ['role:Admin']], function () {
                 Route::post('/update/{kd_jurusan}', [JurusanController::class, 'update'])->name('update');
                 Route::delete('/delete/{kd_jurusan}', [JurusanController::class, 'destroy'])->name('delete');
             });
+
+            // Siswa CRUD
+            Route::name('siswa.')->prefix('/siswa')->group(function ()
+            {
+                Route::get('/index', [SiswaController::class, 'index'])->name('index');
+                Route::get('/create', [SiswaController::class, 'create'])->name('create');
+                Route::get('/edit/{kd_guru}', [SiswaController::class, 'edit'])->name('edit');
+
+                Route::post('/store', [SiswaController::class, 'store'])->name('store');
+                Route::post('/update/{kd_guru}', [SiswaController::class, 'update'])->name('update');
+                Route::delete('/delete/{kd_guru}', [SiswaController::class, 'destroy'])->name('delete');
+
+                Route::post('/import', [SiswaController::class, 'import'])->name('import');
+                Route::get('/export', [SiswaController::class, 'export'])->name('export');
+            });
+
         });
          
         Route::get('/dashboard', 'Admin\HomeController@index')->name('index');

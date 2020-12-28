@@ -16,6 +16,7 @@
           <ul class="treeview-menu">			
             <li><a href="{{ route('admin.master.guru.index') }}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Guru</a></li>
             <li><a href="{{ route('admin.master.kelas.index') }}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Kelas</a></li>
+            <li><a href="{{ route('admin.master.siswa.index') }}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Siswa</a></li>
             <li><a href="component_media_advanced.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>============</a></li>
             <li><a href="component_rangeslider.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Range Slider</a></li>
             <li><a href="component_rating.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Ratings</a></li>
