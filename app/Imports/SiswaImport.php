@@ -46,7 +46,7 @@ class SiswaImport implements ToCollection, WithHeadingRow, WithStartRow
         try {
             DB::beginTransaction();
             foreach ($rows as $row) {
-            $kdSiswa = $this->getKodeSiswa();  
+                $kdSiswa = $this->getKodeSiswa();  
                 $user = User::create([
                     'name'      => $row['nama'],
                     'email'     => $row['email'],
@@ -54,23 +54,26 @@ class SiswaImport implements ToCollection, WithHeadingRow, WithStartRow
                 ]);
                 $user->assignRole('Siswa');
                 $siswa = SiswaModel::create([
-                    'kd_siswa'   => $kdSiswa,
-                    'user_id'   => $user->id,
-                    'nis'       => $row['nis'],
-                    'nisn'       => $row['nisn'],
-                    'jenis_kelamin'  => $row['jenis_kelamin'],
-                    'tempat_lahir' => $row['tempat_lahir'],
+                    'kd_siswa'      => $kdSiswa,
+                    'user_id'       => $user->id,
+                    'nis'           => $row['nis'],
+                    'nisn'          => $row['nisn'],
+                    'jenis_kelamin' => $row['jenis_kelamin'],
                     'tanggal_lahir' => $row['tanggal_lahir'],
                     'agama'         => $row['agama'],
+                    'nomor_telf'    => $row['nomor_telf'],
                     'nama_ibu'      => $row['nama_ibu'],
                     'nama_ayah'     => $row['nama_ayah'],
+                    'nomor_telf'    => $row['nomor_telf']
                 ]);
             }
             DB::commit();
+            $status = array('data' => $siswa, 'status' => true, 'feedback' => 'Success');
         } catch (\Throwable $th) {
             DB::rollback();
+            $status = array('data' => $th->getMessage().'-'.$th->getLine(), 'status' => false, 'feedback' => 'Fail');
         }
-        return 1;
+        return $status;
     }
 
     /**
@@ -83,7 +86,7 @@ class SiswaImport implements ToCollection, WithHeadingRow, WithStartRow
         $autoIncrementServices = new AutoIncrementServices();
         $siswaModel = new SiswaModel();
         count($siswaModel::all()) == 0 ? $siswa = 0 : $siswa = $siswaModel->latest('kd_siswa')->first()->kd_siswa;
-        $kd_siswa = $autoIncrementServices->handleIncrement(['data' => $siswa, 'prefix' => 'GR-', 'length' => 4]);
+        $kd_siswa = $autoIncrementServices->handleIncrement(['data' => $siswa, 'prefix' => 'SS-', 'length' => 4]);
         return $kd_siswa;
     }
 }

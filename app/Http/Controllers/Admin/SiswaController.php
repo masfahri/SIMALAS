@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use App\Models\SiswaModel;
 use App\Exports\GuruExport;
+use App\Exports\SiswaExport;
 use App\Imports\SiswaImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Services\AutoIncrementServices;
+use Illuminate\Support\Facades\Validator;
 
 class SiswaController extends Controller
 {
@@ -43,10 +45,12 @@ class SiswaController extends Controller
      */
     public function create()
     {
+        $nis = $this->generateNIS();
         $citiesModel = $this->cityModel::orderBy('name','asc')->pluck('name', 'id');
         return view('Admin.pages.Siswa.create', [
             'pageTitle' => 'Tambah Siswa',
-            'provinces'  => $citiesModel
+            'provinces'  => $citiesModel,
+            'nis'       => $nis
         ]);
     }
 
@@ -58,39 +62,40 @@ class SiswaController extends Controller
      */
     public function store(SiswaRequest $request)
     {
-        $validated = $request->validated();
         $kd_siswa = $this->getKodeSiswa();
-        if ($validated) {
+        $validated = $request->validated();
+        if ($request->validated()) {
             try {
                 DB::beginTransaction();
-                $user = $this->userModel::create([
-                    'email' => $request->email,
-                    'password' => $request->password,
-                    'name' => $request['name']
-                ]);
-                $user->assignRole('Siswa');
-                $this->siswaModel::create([
-                    'user_id' => $user->id,
-                    'nis' => $request->nis, 
-                    'kd_siswa' => $kd_siswa,
-                    'nisn' => $request->nisn, 
-                    'nomor_telf' => $request->nomor_telf,
-                    'jenis_kelamin' => $request->jenis_kelamin, 
-                    'tempat_lahir' => $request->tempat_lahir,
-                    'tanggal_lahir' => $request->tanggal_lahir, 
-                    'agama' => $request->agama,
-                    'nama_ayah' => $request->nama_ayah,
-                    'nama_ibu' => $request->nama_ibu, 
-                    'pas_foto' => ''
-                ]);
+                    $user = $this->userModel::create([
+                        'email' => $request->email,
+                        'password' => $request->password,
+                        'name' => $request['name']
+                    ]);
+                    $user->assignRole('Siswa');
+                    $this->siswaModel::create([
+                        'user_id' => $user->id,
+                        'nis' => $request->nis, 
+                        'kd_siswa' => $kd_siswa,
+                        'nisn' => $request->nisn, 
+                        'nomor_telf' => $request->nomor_telf,
+                        'jenis_kelamin' => $request->jenis_kelamin, 
+                        'tempat_lahir' => $request->tempat_lahir,
+                        'tanggal_lahir' => $request->tanggal_lahir, 
+                        'agama' => $request->agama,
+                        'nama_ayah' => $request->nama_ayah,
+                        'nama_ibu' => $request->nama_ibu, 
+                        'pas_foto' => ''
+                    ]);
+                
                 DB::commit();
                 return redirect()->route('admin.master.siswa.index')->with('success', 'Siswa baru dengan nama '.$request['name'].' Berhasil Ditambahkan');
             } catch (\Throwable $th) {
                 DB::rollback();
-                return redirect()->back()->with('error', $th->getMessage());
+                return redirect()->route('admin.master.siswa.index')->with('error', $th->getMessage());
             }
         }else{
-            return redirect()->back()->with('error', $request->fails());
+            return new \Throwable("Something went wrong!");
         }
     }
 
@@ -113,7 +118,22 @@ class SiswaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $citiesModel = $this->cityModel::orderBy('name','asc')->pluck('name', 'id');
+        try {
+            $data = $this->siswaModel::where('kd_siswa', $id)->firstOrFail();
+            return view('Admin.pages.Siswa.edit', [
+                'data' => $data,
+                'pageTitle' => 'Edit Siswa',
+                'provinces' => $citiesModel
+            ]);
+        } catch (\Throwable $th) {
+            return view('welcome', [
+                'data' => null,
+                'pageTitle' => 'Edit Siswa',
+                'provinces' => $citiesModel
+            ]);
+        }
+
     }
 
     /**
@@ -125,7 +145,32 @@ class SiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $data = $this->siswaModel::where('kd_siswa', $id)->firstOrFail();
+            $user = $this->userModel::find($data->user_id);
+            DB::beginTransaction();
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email
+            ]);
+            $data->update([
+                'nis'           => $request->nis,
+                'nisn'          => $request->nisn,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'tempat_lahir'  => $request->tempat_lahir,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'nomor_telf'    => $request->nomor_telf,
+                'pas_foto'      => $request->pas_foto == null ? '' : $request->pas_foto,
+                'agama'         => $request->agama,
+                'nama_ibu'      => $request->nama_ibu,
+                'nama_ayah'     => $request->nama_ayah,
+            ]);
+            DB::commit();
+            return redirect()->route('admin.master.siswa.index')->with(['success' => 'Data : ' . $request->name . ' Berhasil Diubah']);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->route('admin.master.siswa.index')->with(['error' => 'Data <strong> ' . $request->name . ' </strong> Gagal Diubah (<code>'.$th->getMessage().'<code>)']);
+        }
     }
 
     /**
@@ -136,7 +181,16 @@ class SiswaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = $this->siswaModel::where('kd_siswa', $id)->firstOrFail();
+        try {
+            DB::beginTransaction();
+            User::find($data->user_id)->delete();
+            DB::commit();
+            return redirect()->route('admin.master.siswa.index')->with(['success' => ' Berhasil Dihapus']);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->route('admin.master.siswa.index')->with(['error' => 'Data Gagal Diubah (<code>'.$th->getMessage().'<code>)']);
+        }
     }
 
     
@@ -149,7 +203,7 @@ class SiswaController extends Controller
     {
         $file = $request->file_import;
         try {
-            Excel::import(new SiswaImport, $file->getRealPath());
+            $data = Excel::import(new SiswaImport, $file->getRealPath());
             return redirect()->route('admin.master.siswa.index')->with(['success' => 'Berhasil Import Data Siswa']);
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $failures = $e->failures();
@@ -165,7 +219,7 @@ class SiswaController extends Controller
      */
     public function export()
     {
-        return Excel::download(new GuruExport($this->guruModel), 'User.xlsx');
+        return Excel::download(new SiswaExport($this->siswaModel), 'Siswa.xlsx');
     }
 
     /**
@@ -179,6 +233,21 @@ class SiswaController extends Controller
         $siswaModel = new SiswaModel();
         count($siswaModel::all()) == 0 ? $siswa = 0 : $siswa = $siswaModel->latest('kd_siswa')->first()->kd_siswa;
         $kd_siswa = $autoIncrementServices->handleIncrement(['data' => $siswa, 'prefix' => 'SS-', 'length' => 4]);
+        return $kd_siswa;
+    }
+
+    /**
+     * Get Kode Guru Last
+     * 
+     * @return String
+     */
+    public function generateNIS()
+    {
+        $autoIncrementServices = new AutoIncrementServices();
+        
+        $siswaModel = new SiswaModel();
+        count($siswaModel::all()) == 0 ? $siswa = 0 : $siswa = $siswaModel->latest('nis')->first()->nis;
+        $kd_siswa = $autoIncrementServices->handleNIS(['data' => $siswa, 'nsm' => '99999999999999', 'thn_masuk' => '20', 'length' => 16]);
         return $kd_siswa;
     }
 }

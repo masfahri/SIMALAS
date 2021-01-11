@@ -8,15 +8,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Services\AutoIncrementServices;
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Validators\Failure;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithStartRow;
-use Maatwebsite\Excel\Concerns\SkipsFailures;
-use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithValidation;
 
 class GuruImport implements ToCollection, WithHeadingRow, WithStartRow
 {
@@ -45,7 +40,7 @@ class GuruImport implements ToCollection, WithHeadingRow, WithStartRow
         try {
             DB::beginTransaction();
             foreach ($rows as $row) {
-        $kdGuru = $this->getKodeGuru();  
+                $kdGuru = $this->getKodeGuru();  
                 $user = User::create([
                     'name'      => $row['nama'],
                     'email'     => $row['email'],

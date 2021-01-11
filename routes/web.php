@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Admin\GuruController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\KelasController;
@@ -115,6 +116,11 @@ Route::group(['middleware' => ['role:Admin']], function () {
         });
          
         Route::get('/dashboard', 'Admin\HomeController@index')->name('index');
+
+        Route::get('/clear-cahce', function ()
+        {
+           Artisan::call('cache:clear');
+        });
         
 
     });

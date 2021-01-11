@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
+use App\Models\SiswaModel;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SiswaRequest extends FormRequest
@@ -16,6 +18,8 @@ class SiswaRequest extends FormRequest
         return true;
     }
 
+    
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,53 +27,17 @@ class SiswaRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'nis'               => 'required|numeric|unique:siswa',
-            'nisn'              => 'required|numeric|unique:siswa',
-            'jenis_kelamin'     => 'required',
-            'tempat_lahir'      => 'required',
-            'tanggal_lahir'     => 'required|date',
-            'nomor_telf'        => 'required|numeric',
-            'agama'             => 'required',
-            'nama_ibu'          => 'required',
-            'nama_ayah'         => 'required',
-        ];
+        return SiswaModel::VALIDATION_RULES + User::VALIDATION_RULES;
     }
 
     /**
-     * Set Message the validation Rules
-     * 
+     * Set the Message validation rules that apply to the view.
+     *
      * @return array
      */
     public function messages()
     {
-        return [
-            'nis' => [
-                'numeric'  => 'NIS Hanya Numerik',
-                'unique'   => 'NIS Sudah Digunakan'
-            ],
-            'nisn' => [
-                'numeric'  => 'NISN Hanya Numerik',
-                'unique'   => 'NISN Sudah Digunakan'
-            ],
-            'jenis_kelamin' => [
-                'required' => 'Jenis Kelamin Dibutuhkan',
-            ],
-            'tanggal_lahir' => [
-                'required' => 'Tanggal Lahir Dibutuhkan',
-                'date'     => 'Tanggal Lahir Hanya Tanggal'
-            ],
-            'tempat_lahir'  => [
-                'required' => 'Tempat Lahir Dibutuhkan',
-            ],
-            'nomor_telf'    => [
-                'required'  => 'Nomor Telf Dibutuhkan',
-                'numeric'   => 'Nomor Telf Hanya Numeric'
-            ],
-            'agama'         => [
-                'required'  => 'Agama Dibutuhkan'
-            ],
-        ];
+        return SiswaModel::VALIDATION_MESSAGES + User::VALIDATION_MESSAGES;
     }
 
     

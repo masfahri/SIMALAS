@@ -42,11 +42,11 @@
                     <td>{{ $item->nis }}</td>
                     <td>{{ $item->SiswaToUser->name }}</td>
                     <td>{{ $item->SiswaToUser->email }}</td>
-                    <td><center><img style="width: 35%" class="img-thumbnail" src="{{ ($item->pas_foto == null) ? 'http://simalas.local/v1/images/simalas.png' : $item->pas_foto }}" alt=""></center></td>
+                    <td><center><img style="width: 35%" class="img-thumbnail" src="{{ ($item->pas_foto == '') ? 'http://simalas.local/v1/images/simalas.png' : $item->pas_foto }}" alt=""></center></td>
                     <td>
-                        <center><a href="{{ route('admin.master.guru.edit', $item->nis) }}"><span class="fa fa-edit fa-lg" style="font-size: 20"></span></a>
-                        <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();" href="{{ route('admin.master.guru.delete', $item->kd_siswa) }}"><span class="fa fa-trash fa-lg" style="font-size: 20"></span></a></center>
-                        <form id="logout-form" action="{{ route('admin.master.guru.delete', $item->kd_siswa) }}" method="POST" style="display: none;">
+                        <a href="{{ route('admin.master.siswa.edit', $item->kd_siswa) }}"><span class="fa fa-edit fa-lg" style="font-size: 20"></span></a>
+                        <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();" href="{{ route('admin.master.siswa.delete', $item->kd_siswa) }}"><span class="fa fa-trash fa-lg" style="font-size: 20"></span></a></center>
+                        <form id="logout-form" action="{{ route('admin.master.siswa.delete', $item->kd_siswa) }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
                             @method('delete')
                         </form>

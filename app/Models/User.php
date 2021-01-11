@@ -12,6 +12,18 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles;
 
+    public const VALIDATION_RULES = [
+        'email' => [
+            'required',
+            'unique:users'
+        ]
+    ];
+    
+    public const VALIDATION_MESSAGES = [
+        'email.required' => 'Email Dibutuhkan',
+        'email.unique:users' => 'Email Sudah Digunakan'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
