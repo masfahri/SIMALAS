@@ -17,11 +17,11 @@ class CreateSiswaModelsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->unique();
             $table->string('kd_siswa')->unique();
-            $table->bigInteger('nis')->unique();
+            $table->string('nis')->unique();
             $table->bigInteger('nisn')->unique();
             $table->enum('jenis_kelamin', ['L', 'P']);
             $table->enum('agama', ['Islam', 'Kristen', 'Protestan', 'Hindu', 'Budha']);
-            $table->String('tempat_lahir')->default(null);
+            $table->String('tempat_lahir')->default(0);
             $table->String('tanggal_lahir')->default(null);
             $table->String('nomor_telf')->default(null);
             $table->String('pas_foto')->default(null);

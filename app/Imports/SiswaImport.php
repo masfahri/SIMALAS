@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\User;
 use App\Models\GuruModel;
 use App\Models\SiswaModel;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +13,8 @@ use App\Services\AutoIncrementServices;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Validators\Failure;
 use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\SkipsErrors;
+use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
@@ -19,7 +22,7 @@ use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class SiswaImport implements ToCollection, WithHeadingRow, WithStartRow
+class SiswaImport implements ToCollection, WithHeadingRow
 {
     use Importable;
 
@@ -46,6 +49,8 @@ class SiswaImport implements ToCollection, WithHeadingRow, WithStartRow
         try {
             DB::beginTransaction();
             foreach ($rows as $row) {
+                $data = SiswaModel::where(['nis' => $row['nis']])->orWhere(['nisn' => $row['nisn']])->get();
+                $user = User::where('email', $row['email'])->get();
                 $kdSiswa = $this->getKodeSiswa();  
                 $user = User::create([
                     'name'      => $row['nama'],
@@ -68,12 +73,11 @@ class SiswaImport implements ToCollection, WithHeadingRow, WithStartRow
                 ]);
             }
             DB::commit();
-            $status = array('data' => $siswa, 'status' => true, 'feedback' => 'Success');
+            return array('data' => 'Success', 'status' => true);
         } catch (\Throwable $th) {
             DB::rollback();
-            $status = array('data' => $th->getMessage().'-'.$th->getLine(), 'status' => false, 'feedback' => 'Fail');
+            return array('data' => $th->getMessage().'-'.$th->getLine(), 'status' => false);
         }
-        return $status;
     }
 
     /**

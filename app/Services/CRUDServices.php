@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CRUDServices 
 {
@@ -25,6 +26,7 @@ class CRUDServices
             }
         } catch (\Throwable $th) {
             DB::rollback();
+            dd($th->getMessage());
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }
     }
@@ -67,6 +69,7 @@ class CRUDServices
             return redirect()->back()->with(['success' => $request['pageTitle'].': <strong>' . $request['pageTitle'] . '</strong> Berhasil Dihapus']);
         } catch (\Throwable $th) {
             DB::rollback();
+            Log::error($th);
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }
     }

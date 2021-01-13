@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\CRUDServices;
+use App\Services\AutoIncrementServices;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -30,7 +31,19 @@ class Controller extends BaseController
      */
     public function deleteService($request)
     {
-        $services = new CRUDServices;
+        $services = new CRUDServices; 
         return $services->handleDelete($request);
+    }
+
+    /**
+     * Get Kode Guru Last
+     * @param $model $field in $model
+     * @return String
+     */
+    public function getKodeIncrement($model, $incrementParams)
+    {
+        $autoIncrementServices = new AutoIncrementServices();
+        $result = $autoIncrementServices->handleIncrement($incrementParams);
+        return $result;
     }
 }

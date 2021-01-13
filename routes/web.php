@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\JurusanController;
+use App\Http\Controllers\Admin\MappingController;
 use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\Admin\SubKelasController;
 
@@ -46,7 +47,7 @@ Route::namespace('Auth')->name('auth.')->prefix('auth/')->group(function ()
 /**
  * Admin Area
  */
-Route::group(['middleware' => ['role:Admin']], function () {
+Route::group(['middleware' => ['role:Admin', 'auth']], function () {
     Route::name('admin.')->prefix('/admin')->group(function ()
     {
         /**
@@ -111,6 +112,15 @@ Route::group(['middleware' => ['role:Admin']], function () {
 
                 Route::post('/import', [SiswaController::class, 'import'])->name('import');
                 Route::get('/export', [SiswaController::class, 'export'])->name('export');
+
+                Route::name('mapping.')->prefix('/mapping')->group(function ()
+                {
+                    Route::get('/mapping-siswa-to-class/{kd_kelas}', [MappingController::class, 'index'])->name('index');
+                    Route::post('/mapping-siswa-to-class', [MappingController::class, 'store'])->name('store');
+                    Route::put('/mapping-siswa-to-class', [MappingController::class, 'update'])->name('update');
+                    Route::delete('/mapping-siswa-to-class/{kd_kelas}', [MappingController::class, 'destroy'])->name('delete');
+                });
+
             });
 
         });

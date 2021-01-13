@@ -203,10 +203,11 @@ class SiswaController extends Controller
     {
         $file = $request->file_import;
         try {
-            $data = Excel::import(new SiswaImport, $file->getRealPath());
+            $data = new SiswaImport();
+            $data->import($file->getRealPath());
             return redirect()->route('admin.master.siswa.index')->with(['success' => 'Berhasil Import Data Siswa']);
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            $failures = $e->failures();
+        } catch (\Throwable $e) {
+            $failures = $e->getMessage();
             session()->flash('error', 'error bos');
             return redirect()->back();
         } 

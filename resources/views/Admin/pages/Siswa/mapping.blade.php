@@ -26,9 +26,10 @@
       <section class="content">
         <div class="row">
           <div class="col-12">
-            @component('Components.Admin.Table.siswa', [
+            @component('Components.Admin.Table.mapping-siswa-to-kelas', [
                 'pageTitle' => $pageTitle,
                 'data'      => $data,
+                'siswa'     => $siswa,
                 'route'     => array(
                     'export' => route('admin.master.siswa.export'),
                     'import' => route('admin.master.siswa.import'),
@@ -56,23 +57,26 @@
 	<script src="{{ asset('v1/js/pages/chat-popup.js') }}"></script>
     <script src="{{ asset('v1/icons/feather-icons/feather.min.js') }}"></script>
     <script src="{{ asset('v1/vendor_components/datatable/datatables.min.js') }}"></script>
+    
+    <script src="{{ asset('v1/vendor_components/bootstrap-select/dist/js/bootstrap-select.js') }}"></script>
+	<script src="{{ asset('v1/vendor_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js') }}"></script>
+	<script src="{{ asset('v1/vendor_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js') }}"></script>
+	<script src="{{ asset('v1/vendor_components/select2/dist/js/select2.full.js') }}"></script>
+	<script src="{{ asset('v1/vendor_plugins/input-mask/jquery.inputmask.js') }}"></script>
+	<script src="{{ asset('v1/vendor_plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
+	<script src="{{ asset('v1/vendor_plugins/input-mask/jquery.inputmask.extensions.js') }}"></script>
+	<script src="{{ asset('v1/vendor_components/moment/min/moment.min.js') }}"></script>
+	<script src="{{ asset('v1/vendor_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+	<script src="{{ asset('v1/vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+	<script src="{{ asset('v1/vendor_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
+	<script src="{{ asset('v1/vendor_plugins/timepicker/bootstrap-timepicker.min.js') }}"></script>
+	<script src="{{ asset('v1/vendor_plugins/iCheck/icheck.min.js') }}"></script>
+
 	
 	<!-- EduAdmin App -->
-	<script src="{{ asset('v1/js/template.js') }}"></script>
+    <script src="{{ asset('v1/js/template.js') }}"></script>
+    <script src="{{ asset('v1/js/pages/advanced-form-element.js') }}"></script>
+
 	
     <script src="{{ asset('v1/js/pages/data-table.js') }}"></script>
-    <script>
-        $('#import').click(function (e) { 
-            e.preventDefault();
-            if($('#form-import:visible').length == 0)
-            {
-                
-                $('#form-import').show('slow');
-            }else{
-                $('#form-import').hide('slow');
-
-            }
-        });
-    </script>
-    
 @endsection

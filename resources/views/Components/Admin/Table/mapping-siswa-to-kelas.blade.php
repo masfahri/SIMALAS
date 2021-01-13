@@ -17,6 +17,11 @@
         @if (session('success'))
             <center><span class="badge badge-success w-100" style="padding: 4px; margin: 10px; width: 100% !important">{{ session('success') }}</span></center>
         @endif
+        <form style="margin-top: 20px; display:none;" action="{{ $route['import'] }}" method="post" id="form-import" enctype='multipart/form-data'>
+            @csrf
+            {!! Form::file('file_import', ['class' => 'form-control']) !!}
+            {!! Form::submit('submit', ['class' => 'form-control']) !!}
+        </form>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
@@ -30,21 +35,19 @@
                 </tr>
             </thead>
             <tbody>
-                {{-- @dd($kelas) --}}
-                @foreach ($kelasSubJurusan as $item)
+                @foreach ($data as $item)
                 <tr>
-                    <td>{{ $item->kd_kelas }} {{ $item->kd_jurusan == 0 ? '' : $item->Jurusan->name }} - {{ $item->SubKelas->name }}</td>
-                    <td>{{ $item->Guru->GuruToUser->name }}</td>
-                    <td>x Siswa</td>
+                    <td>{{ $item->Siswa->nis }}</td>
+                    <td>{{ $item->Siswa->SiswaToUser->name }}</td>
+                    <td>{{ $item->Siswa->SiswaToUser->email }}</td>
+                    <td><center><img style="width: 35%" class="img-thumbnail" src="{{ ($item->Siswa->pas_foto == '') ? 'http://simalas.local:88/v1/images/simalas.png' : $item->Siswa->pas_foto }}" alt=""></center></td>
                     <td>
-                        <a href="#" data-id="{{ $item->id }}" data-toggle="modal" id="edit-kelas" data-target="#modal-edit" data-toggle="tooltip" data-placement="top"><span class="fa fa-edit fa-lg" style="font-size: 20"></span></a>
-                        <a href="{{ route('admin.master.siswa.mapping.index', $item->id) }}"><span class="fa fa-user fa-lg" style="font-size: 20"></span></a>
-                        <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();" href="{{ route('admin.master.guru.delete', $item->kd_guru) }}"><span class="fa fa-trash fa-lg" style="font-size: 20"></span></a></center>
-                        <form id="logout-form" action="{{ route('admin.master.kelas.delete', $item->id) }}" method="POST" style="display: none;">
+                        <a onclick="event.preventDefault(); document.getElementById('delete').submit();" href="#"><span class="fa fa-trash fa-lg" style="font-size: 20"></span></a></center>
+                        <form id="delete" action="{{ route('admin.master.siswa.mapping.delete', $item->Siswa->kd_siswa) }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
+                            {!! method_field('delete') !!}
                             @method('delete')
                         </form>
-                        
                     </td>
                 </tr>
                 @endforeach
@@ -62,21 +65,8 @@
     <!-- /.box-body -->
   </div>
   <!-- /.box -->   
-  @component('Components.Admin.Modal.create-kelas', [
-      'kelas'    => $kelas,
-      'jurusan'  => $jurusan,
-      'subKelas' => $subKelas,
-      'guru'     => $guru
-
-  ])
-      
-  @endcomponent
-
-@component('Components.Admin.Modal.edit-kelas', [
-    'kelas'    => $kelas,
-    'jurusan'  => $jurusan,
-    'subKelas' => $subKelas,
-    'guru'     => $guru
+@component('Components.Admin.Modal.mapping-siswa-to-kelas', [
+    'siswa'    => $siswa,
 
 ])
     
