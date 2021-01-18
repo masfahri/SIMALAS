@@ -36,6 +36,17 @@ class Controller extends BaseController
     }
 
     /**
+     * Update Data
+     * @param array $request
+     * @return array with Messages
+     */
+    public function updateService($request)
+    {
+        $services = new CRUDServices;
+        return $services->handleUpdate($request);
+    }
+
+    /**
      * Get Kode Guru Last
      * @param $model $field in $model
      * @return String

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\Admin\MappingController;
+use App\Http\Controllers\Admin\MataPelajaranController;
 use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\Admin\SubKelasController;
 
@@ -121,6 +122,17 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
                     Route::delete('/mapping-siswa-to-class/{kd_kelas}', [MappingController::class, 'destroy'])->name('delete');
                 });
 
+            });
+
+            Route::name('mapel.')->prefix('/mapel')->group(function ()
+            {
+                Route::get('/index', [MataPelajaranController::class, 'index'])->name('index');
+                Route::get('/create', [MataPelajaranController::class, 'create'])->name('create');
+                Route::get('/edit/{kd_guru}', [MataPelajaranController::class, 'edit'])->name('edit');
+
+                Route::post('/store', [MataPelajaranController::class, 'store'])->name('store');
+                Route::post('/update', [MataPelajaranController::class, 'update'])->name('update');
+                Route::delete('/delete/{kd_guru}', [MataPelajaranController::class, 'destroy'])->name('delete');
             });
 
         });

@@ -17,6 +17,7 @@
             <li><a href="{{ route('admin.master.guru.index') }}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Guru</a></li>
             <li><a href="{{ route('admin.master.kelas.index') }}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Kelas</a></li>
             <li><a href="{{ route('admin.master.siswa.index') }}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Siswa</a></li>
+            <li><a href="{{ route('admin.master.mapel.index') }}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Mata Pelajaran</a></li>
           </ul>
         </li>
         <li class="treeview">

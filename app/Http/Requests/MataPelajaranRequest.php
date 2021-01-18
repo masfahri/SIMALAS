@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
-use App\Models\SiswaModel;
+use App\Models\MataPelajaranModel;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SiswaRequest extends FormRequest
+class MataPelajaranRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +24,7 @@ class SiswaRequest extends FormRequest
      */
     public function rules()
     {
-        return SiswaModel::VALIDATION_RULES + User::VALIDATION_RULES;
+        return MataPelajaranModel::VALIDATION_RULES;
     }
 
     /**
@@ -35,8 +34,6 @@ class SiswaRequest extends FormRequest
      */
     public function messages()
     {
-        return SiswaModel::VALIDATION_MESSAGES + User::VALIDATION_MESSAGES;
+        return MataPelajaranModel::VALIDATION_MESSAGES;
     }
-
-    
 }

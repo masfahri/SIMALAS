@@ -26,7 +26,6 @@ class CRUDServices
             }
         } catch (\Throwable $th) {
             DB::rollback();
-            dd($th->getMessage());
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }
     }
@@ -42,12 +41,7 @@ class CRUDServices
             DB::beginTransaction();
             $request['model']::where($request['where'])->update($request['data']);
             DB::commit();
-            if (!empty($request['data']['name'])) {
-                return redirect()->action($request['redirect'])->with(['success' => $request['pageTitle'].': <strong>' . $request['data']['name'] . '</strong> Berhasil Diubah']);
-            }else{
-                return redirect()->action($request['redirect'])->with(['success' => $request['pageTitle'].': <strong>' . $request['messages'] . '</strong> Berhasil Diubah']);
-            }
-            // return redirect()->action($request['redirect'])->with(['success' => $request['pageTitle'].': <strong>' . $request['data']['name'] . '</strong> Diubah']);
+            return redirect()->back()->with(['success' => $request['pageTitle'].' : ' . 'Berhasil Diubah']);
         } catch (\Throwable $th) {
             DB::rollback();
             return redirect()->back()->with(['error' => $th->getMessage()]);
@@ -66,7 +60,7 @@ class CRUDServices
             DB::beginTransaction();
             $request['model']::where($request['where'])->delete();
             DB::commit();
-            return redirect()->back()->with(['success' => $request['pageTitle'].': <strong>' . $request['pageTitle'] . '</strong> Berhasil Dihapus']);
+            return redirect()->back()->with(['success' => $request['pageTitle'].' : ' . 'Berhasil Dihapus']);
         } catch (\Throwable $th) {
             DB::rollback();
             Log::error($th);
