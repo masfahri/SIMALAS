@@ -61,8 +61,7 @@ class MataPelajaranController extends Controller
                 ),
                 'pageTitle' => 'Kelas',
                 'message' => 'Berhasil'
-            ]);
-            return $create;
+            ]); return $create;
         } return redirect()->back()->with(['error' => 'Nama Mapel atau Kode Mapel Sudah Ada']);
 
                

@@ -31,6 +31,7 @@
                     <td>({{ $item->summon }}) - {{ $item->nama_mapel }}</td>
                     <td>
                         <a href="#" data-id="{{ $item->id }}" data-toggle="modal" id="edit-mapel" data-target="#modal-edit" data-toggle="tooltip" data-placement="top"><span class="fa fa-edit fa-lg" style="font-size: 20"></span></a>
+                        <a href="{{ route('admin.master.mapel.mapping.index', $item->kd_mapel) }}"><span class="fa fa-user fa-lg" style="font-size: 20"></span></a>
                         <a onclick="event.preventDefault(); confirm ('Yakin?'); document.getElementById('logout-form{{ $item->id }}').submit();" href="#"><span class="fa fa-trash fa-lg" style="font-size: 20"></span></a></center>
                         <form id="logout-form{{ $item->id }}" action="{{ route('admin.master.mapel.delete', $item->kd_mapel) }}" method="POST" style="">
                             {{ csrf_field() }}

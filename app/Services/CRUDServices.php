@@ -7,6 +7,20 @@ use Illuminate\Support\Facades\Log;
 
 class CRUDServices 
 {
+    /**
+     * handleExists for Check Data
+     * @param $params
+     * @return void
+     */
+    public function handleExists($request)
+    {
+        $data = $request['model']::where($request['data'])->get();
+        if ($data->count() == 0) {
+            return false;
+        }else{
+            return true;
+        }
+    }
 
     /**
      * handleCreate for Insert Data
@@ -58,7 +72,8 @@ class CRUDServices
     {
         try {
             DB::beginTransaction();
-            $request['model']::where($request['where'])->delete();
+            $data = $request['model']::where($request['where'])->first();
+            $data->delete();
             DB::commit();
             return redirect()->back()->with(['success' => $request['pageTitle'].' : ' . 'Berhasil Dihapus']);
         } catch (\Throwable $th) {

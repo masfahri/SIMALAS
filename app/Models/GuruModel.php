@@ -10,12 +10,7 @@ class GuruModel extends Model
     use HasFactory;
 
     protected $table = 'Guru';
-    // /**
-    //  * The attributes that aren't mass assignable.
-    //  *
-    //  * @var array
-    //  */
-    // protected $guarded = ['user_id'];
+
     protected $fillable = [
         'kd_guru',
         'nip',
@@ -51,5 +46,18 @@ class GuruModel extends Model
     public function GuruExport()
     {
         return $this->join('users', 'guru.user_id', '=', 'users.id')->get();
+    }
+
+    public function MataPelajaran()
+    {
+        // return $this->leftJoin('mapping_mapel_to_guru', 'guru.kd_guru', '=', 'mapping_mapel_to_guru.kd_guru')
+        // ->where('mapping_mapel_to_guru.kd_guru')->get();
+        return $this->hasMany(MappingMapelToGuruModel::class, 'kd_guru', 'kd_guru');
+    }
+
+    public function MappingMataPelajaran($where)
+    {
+        return $this->leftJoin('mapping_mapel_to_guru', 'guru.kd_guru', '=', 'mapping_mapel_to_guru.kd_guru')
+        ->where(array('mapping_mapel_to_guru.kd_guru' => 'null'))->get();
     }
 }

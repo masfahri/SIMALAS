@@ -8,9 +8,10 @@ use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\Admin\MappingController;
-use App\Http\Controllers\Admin\MataPelajaranController;
 use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\Admin\SubKelasController;
+use App\Http\Controllers\Admin\MappingMapelController;
+use App\Http\Controllers\Admin\MataPelajaranController;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,6 +134,14 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
                 Route::post('/store', [MataPelajaranController::class, 'store'])->name('store');
                 Route::post('/update', [MataPelajaranController::class, 'update'])->name('update');
                 Route::delete('/delete/{kd_guru}', [MataPelajaranController::class, 'destroy'])->name('delete');
+
+                Route::name('mapping.')->prefix('/mapping')->group(function ()
+                {
+                    Route::get('/mapping-guru-to-mapel/{kd_kelas}', [MappingMapelController::class, 'index'])->name('index');
+                    Route::post('/mapping-guru-to-mapel', [MappingMapelController::class, 'store'])->name('store');
+                    Route::put('/mapping-guru-to-mapel', [MappingMapelController::class, 'update'])->name('update');
+                    Route::delete('/mapping-guru-to-mapel/{id}', [MappingMapelController::class, 'destroy'])->name('delete');
+                });
             });
 
         });

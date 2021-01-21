@@ -16,7 +16,7 @@ class CreateGuruModelsTable extends Migration
     {
         Schema::create('guru', function (Blueprint $table) {
             $table->id();
-            $table->string('kd_guru')->nullable();
+            $table->string('kd_guru')->nullable()->unique();
             $table->bigInteger('user_id')->unsigned();
             $table->integer('nip')->nullable();
             $table->enum('jenis_kelamin', ['L', 'P'])->default('L');

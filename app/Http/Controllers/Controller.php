@@ -14,6 +14,17 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
+     * Check Data
+     * @param array $request
+     * @return Boolean
+     */
+    public function checkService($request)
+    {
+        $services = new CRUDServices;
+        return $services->handleExists($request);
+    }
+
+    /**
      * Create Data
      * @param array $request
      * @return array with Messages

@@ -42,7 +42,7 @@
                     <td>{{ $item->Siswa->SiswaToUser->email }}</td>
                     <td><center><img style="width: 35%" class="img-thumbnail" src="{{ ($item->Siswa->pas_foto == '') ? 'http://simalas.local:88/v1/images/simalas.png' : $item->Siswa->pas_foto }}" alt=""></center></td>
                     <td>
-                        <a onclick="event.preventDefault(); document.getElementById('delete').submit();" href="#"><span class="fa fa-trash fa-lg" style="font-size: 20"></span></a></center>
+                        <a onclick="event.preventDefault(); confirm ('Yakin?'); document.getElementById('delete').submit();" href="#"><span class="fa fa-trash fa-lg" style="font-size: 20"></span></a></center>
                         <form id="delete" action="{{ route('admin.master.siswa.mapping.delete', $item->Siswa->kd_siswa) }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
                             {!! method_field('delete') !!}
