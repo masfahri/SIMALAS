@@ -38,6 +38,8 @@
                 // if so, remove the element from the "Draggable Events" list
                 eventObj.remove();
             }
+            console.log(date);
+            console.log(eventObj)
     },
     /* on click on event */
     CalendarApp.prototype.onEventClick =  function (calEvent, jsEvent, view) {

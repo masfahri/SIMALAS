@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Admin\GuruController;
+use App\Http\Controllers\Admin\JadwalController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\SiswaController;
@@ -135,13 +136,25 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
                 Route::post('/update', [MataPelajaranController::class, 'update'])->name('update');
                 Route::delete('/delete/{kd_guru}', [MataPelajaranController::class, 'destroy'])->name('delete');
 
+
                 Route::name('mapping.')->prefix('/mapping')->group(function ()
                 {
                     Route::get('/mapping-guru-to-mapel/{kd_kelas}', [MappingMapelController::class, 'index'])->name('index');
                     Route::post('/mapping-guru-to-mapel', [MappingMapelController::class, 'store'])->name('store');
                     Route::put('/mapping-guru-to-mapel', [MappingMapelController::class, 'update'])->name('update');
                     Route::delete('/mapping-guru-to-mapel/{id}', [MappingMapelController::class, 'destroy'])->name('delete');
+
                 });
+
+                Route::name('jam.')->prefix('/jam')->group(function ()
+                {
+                    Route::get('/index', [JadwalController::class, 'index'])->name('index');
+                });
+            });
+
+            Route::name('jadwal.')->prefix('/jadwal')->group(function ()
+            {
+               Route::get('/index', [JadwalController::class, 'index'])->name('index');
             });
 
         });
