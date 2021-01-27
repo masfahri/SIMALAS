@@ -154,7 +154,7 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
 
             Route::name('jadwal.')->prefix('/jadwal')->group(function ()
             {
-               Route::get('/index', [JadwalController::class, 'index'])->name('index');
+               Route::get('/{any}', [JadwalController::class, 'index'])->name('index')->where('any', '*');
             });
 
         });

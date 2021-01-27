@@ -185,8 +185,10 @@
   </header>
   
   @include('layouts.module.sidebar')
-
-  @yield('content')
+  	<div id="app">
+		<App></App>
+	</div>
+	@yield('content')
 
 
 
@@ -207,6 +209,8 @@
 	<!-- Page Content overlay -->
 	
 	@yield('js')
+	<script src="{{ asset('js/app.js') }}"></script>
+
 	
 </body>
 
