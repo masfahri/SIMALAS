@@ -91,6 +91,7 @@
                 dataType: "json",
                 success: function (response) {
                     console.log(response.kd_sub_kelas)
+                    $('#id').val(""+response.id+"").trigger("change");;
                     $('#id-guru').val(""+response.kd_guru+"").trigger("change");;
                     $('#kd_sub_kelas').val(""+response.kd_sub_kelas+"").trigger("change");;
                     $('#kd_kelas').val(""+response.kd_kelas+"").trigger("change");;

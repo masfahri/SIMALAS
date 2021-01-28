@@ -10,8 +10,10 @@
           </button> --}}
         </div>
         <div class="modal-body">
-            <form action="{{ route('admin.master.kelas.store') }}" method="post">
+            <form action="{{ route('admin.master.kelas.update') }}" method="post">
                 @csrf
+                <input name="_method" type="hidden" value="PUT">
+                {!! Form::hidden('id', null, ['id' => 'id']) !!}
                 <div class="form-group">
                     <h5>Kelas <span class="text-danger">*</span></h5>
                     <div class="controls">

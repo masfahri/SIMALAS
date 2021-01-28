@@ -24,6 +24,8 @@ class KelasController extends Controller
         $this->guruModel = $guruModel;
         $this->kelasSubJurusanModel = $kelasSubJurusanModel;
         $this->subKelasModel = $subKelasModel;
+
+        $this->pageTitle = 'Kelas';
     }
     /**
      * Display a listing of the resource.
@@ -108,12 +110,30 @@ class KelasController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $count = $this->kelasSubJurusanModel::where('id', $request->id)->count();
+        $exists_kelas = $this->kelasSubJurusanModel::where(array('kd_kelas' => $request->kd_kelas, 'kd_sub_kelas' => $request->kd_sub_kelas, 'kd_guru' => $request->kd_guru))->count();
+        $exists_guru = $this->kelasSubJurusanModel::where('kd_guru', $request->kd_guru)->count();
+        if ($count == 1) {
+            if ($exists_kelas == 0 && $exists_guru == 0) {
+                $update = $this->updateService([
+                    'model' => $this->kelasSubJurusanModel,
+                    'data'  => array(
+                        'kd_kelas' => $request->kd_kelas,
+                        'kd_sub_kelas' => $request->kd_sub_kelas,
+                        'kd_guru'      => $request->kd_guru
+                    ),
+                    'where' => array(
+                        'id' => $request->id
+                    ),
+                    'pageTitle' => $this->pageTitle,
+                    'message' => 'Berhasil'
+                ]); return $update;
+            } return redirect()->back()->withErrors(['error' => 'Kelas atau Guru Sudah Ada']);
+        } return redirect()->back()->withErrors(['error' => 'Kelas Tidak Ditemukan']);
     }
 
     /**
