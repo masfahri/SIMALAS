@@ -16,7 +16,8 @@ class KelasSubJurusanModel extends Model
         'kd_kelas',
         'kd_sub_kelas',
         'kd_jurusan',
-        'kd_guru'
+        'kd_guru',
+        'id'
     ];
 
     public function Kelas()
