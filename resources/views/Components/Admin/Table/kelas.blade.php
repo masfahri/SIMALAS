@@ -30,12 +30,11 @@
                 </tr>
             </thead>
             <tbody>
-                {{-- @dd($kelas) --}}
                 @foreach ($kelasSubJurusan as $item)
                 <tr>
                     <td>{{ $item->kd_kelas }} {{ $item->kd_jurusan == 0 ? '' : $item->Jurusan->name }} - {{ $item->SubKelas->name }}</td>
                     <td>{{ $item->Guru->GuruToUser->name }}</td>
-                    <td>x Siswa</td>
+                    <td> {{ $item->MappingSiswa->count() }} Siswa</td>
                     <td>
                         <a href="#" data-id="{{ $item->id }}" data-toggle="modal" id="edit-kelas" data-target="#modal-edit" data-toggle="tooltip" data-placement="top"><span class="fa fa-edit fa-lg" style="font-size: 20"></span></a>
                         <a href="{{ route('admin.master.siswa.mapping.index', $item->id) }}"><span class="fa fa-user fa-lg" style="font-size: 20"></span></a>
