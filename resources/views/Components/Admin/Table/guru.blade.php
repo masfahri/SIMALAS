@@ -42,7 +42,7 @@
                     <td>{{ $item->nip }}</td>
                     <td>{{ $item->GuruToUser->name }}</td>
                     <td>{{ $item->GuruToUser->email }}</td>
-                    <td><center><img style="width: 35%" class="img-thumbnail" src="{{ ($item->pas_foto == null) ? 'http://simalas.local/v1/images/simalas.png' : $item->pas_foto }}" alt=""></center></td>
+                    <td><center><img style="width: 35%" class="img-thumbnail" src="{{ ($item->pas_foto == null) ? 'http://simalas.local:8088/v1/images/simalas.png' : asset($item->pas_foto) }}" alt=""></center></td>
                     <td>
                         <center><a href="{{ route('admin.master.guru.edit', $item->kd_guru) }}"><span class="fa fa-edit fa-lg" style="font-size: 20"></span></a>
                         <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();" href="{{ route('admin.master.guru.delete', $item->kd_guru) }}"><span class="fa fa-trash fa-lg" style="font-size: 20"></span></a></center>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\CRUDServices;
+use App\Models\MataPelajaranModel;
 use App\Services\AutoIncrementServices;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -12,6 +13,21 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    protected $mapelModel;
+    public function __construct(MataPelajaranModel $mapelModel) {
+        $this->mapelModel = $mapelModel;
+    }
+
+    /**
+     * Get Model
+     * @param Collection $modelName
+     * @return Collection Model
+     */
+    public function getModel($modelName)
+    {
+        return $modelName::all();
+    }
 
     /**
      * Check Data

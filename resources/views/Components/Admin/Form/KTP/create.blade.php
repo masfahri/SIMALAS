@@ -1,4 +1,4 @@
-<form action="{{ route('admin.master.guru.store') }}" method="post" enctype="multipart/form-data">
+<form action="{{ route('admin.master.guru.store') }}" method="post" >
     @csrf
     <div class="row">
         <div class="col-6">
@@ -15,26 +15,33 @@
                             <div class="row">
                                 <div class="col-12">						
                                     <div class="form-group">
-                                        <h5>NIP <span class="text-danger">*</span></h5>
+                                        <h5>NIK <span class="text-danger">*</span></h5>
                                         <div class="controls">
-                                            <input value="{{ old('nip') }}" type="number" name="nip" class="form-control" required data-validation-required-message="This field is required"> 
-                                        </div>
-                                        <div class="form-control-feedback"><small> <code></code> </small></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <h5>Email <span class="text-danger">*</span></h5>
-                                        <div class="controls">
-                                            <input value="{{ old('email') }}" type="email" name="email" class="form-control" required data-validation-required-message="This field is required"> </div>
+                                            <input type="number" name="nik" class="form-control" required data-validation-required-message="This field is required"> </div>
+                                            <div class="form-control-feedback"><small> <code></code> </small></div>
                                     </div>
                                     <div class="form-group">
                                         <h5>Nama Lengkap <span class="text-danger">*</span></h5>
                                         <div class="controls">
-                                            <input type="text" value="{{ old('name') }}" name="name" class="form-control" required data-validation-required-message="This field is required"> </div>
+                                            <input type="text" name="name" class="form-control" required data-validation-required-message="This field is required"> </div>
                                     </div>
-                                    <div class="form-group">
-                                        <h5>Nomor Telf <span class="text-danger">*</span></h5>
-                                        <div class="controls">
-                                            <input type="number" value="{{ old('nomor_telf') }}" name="nomor_telf" class="form-control" required data-validation-required-message="This field is required"> </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <h5>Tempat Lahir <span class="text-danger">*</span></h5>
+                                                <div class="controls">
+                                                    {!! Form::select('tempat_lahir', $provinces, null, ['class' => 'form-control select2']) !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <h5>Tanggal Lahir <span class="text-danger">*</span></h5>
+                                                <div class="controls">
+                                                    {!! Form::date('tanggal_lahir', '', ['class' => 'form-control']) !!}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Jenis Kelamin</label>
@@ -43,24 +50,6 @@
                                             <label for="jenis_kelamin" class="mr-30">Laki-Laki</label>
                                             <input name="jenis_kelamin" type="radio" id="jenis_kelamin2" value="P">
                                             <label for="jenis_kelamin2" class="mr-30">Perempuan</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <h5>Tempat Lahir <span class="text-danger">*</span></h5>
-                                                <div class="controls">
-                                                    {!! Form::select('tempat_lahir', $provinces, old('tempat_lahir'), ['class' => 'form-control select2']) !!}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <h5>Tanggal Lahir <span class="text-danger">*</span></h5>
-                                                <div class="controls">
-                                                    {!! Form::date('tanggal_lahir', old('tanggal_lahir'), ['class' => 'form-control']) !!}
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="controls">
@@ -86,22 +75,24 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <h5>Nama Ayah <span class="text-danger">*</span></h5>
-                                                <div class="controls">
-                                                    {!! Form::text('nama_ayah', old('nama_ayah'), ['class' => 'form-control']) !!}
-                                                </div>
-                                            </div>
+                                    <div class="controls">
+                                        <div class="form-group">
+                                            <label>Alamat</label>
+                                            <textarea name="alamat"><textarea>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <h5>Nama Ibu <span class="text-danger">*</span></h5>
-                                                <div class="controls">
-                                                    {!! Form::text('nama_ibu', old('nama_ibu'), ['class' => 'form-control']) !!}
-                                                </div>
-                                            </div>
+                                    </div>
+                                    <div class="controls">
+                                        <div class="form-group">
+                                            <label>Kewarganegaraan</label>
+                                            <input name="kewarganegaraan" type="radio" id="kewarganegaraan" value="WNI" checked>
+                                            <label for="kewarganegaraan" class="mr-30">WNI</label>
+                                        </div>
+                                    </div>
+                                    <div class="controls">
+                                        <div class="form-group">
+                                            <label>Berlaku Hingga</label>
+                                            <input name="kewarganegaraan" type="radio" id="kewarganegaraan" value="Seumur Hidup" checked>
+                                            <label for="kewarganegaraan" class="mr-30">WNI</label>
                                         </div>
                                     </div>
                                 </div>
@@ -148,33 +139,33 @@
                             <div class="controls">
                                 <div class="form-group">
                                     <h5>No SK</h5>
-                                    {!! Form::text('no_sk', old('no_sk'), ['class' => 'form-control']) !!}
+                                    {!! Form::text('no_sk', '', ['class' => 'form-control']) !!}
                                 </div>
                             </div>
                             <div class="controls">
                                 <div class="form-group">
                                     <h5>Tanggal SK</h5>
                                     <div class="controls">
-                                        {!! Form::date('tgl_sk', old('tgl_sk'), ['class' => 'form-control']) !!}
+                                        {!! Form::date('tgl_sk', '', ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                             </div>
                             <div class="controls">
                                 <div class="form-group">
                                     <h5>NUPTK</h5>
-                                    {!! Form::number('nuptk', old('nuptk'), ['class' => 'form-control']) !!}
+                                    {!! Form::number('nuptk', '', ['class' => 'form-control']) !!}
                                 </div>
                             </div>
                             <div class="controls">
                                 <div class="form-group">
                                     <h5>TMT Tugas</h5>
-                                    {!! Form::date('tmt_tugas', old('tmt_tugas'), ['class' => 'form-control']) !!}
+                                    {!! Form::date('tmt_tugas', '', ['class' => 'form-control']) !!}
                                 </div>
                             </div>
                             <div class="controls">
                                 <div class="form-group">
                                     <h5>Tugas Tambahan</h5>
-                                    {!! Form::text('tugas_tambahan', old('tugas_tambahan'), ['class' => 'form-control']) !!}
+                                    {!! Form::text('tugas Tambahan', '', ['class' => 'form-control']) !!}
                                 </div>
                             </div>
                             <div class="form-group">

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Admin\GuruController;
+use App\Http\Controllers\admin\JadwalController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\SiswaController;
@@ -52,11 +53,26 @@ Route::namespace('Auth')->name('auth.')->prefix('auth/')->group(function ()
 Route::group(['middleware' => ['role:Admin', 'auth']], function () {
     Route::name('admin.')->prefix('/admin')->group(function ()
     {
-        /**
-         * Master Data Guru
-         */
+        
         Route::name('master.')->prefix('/master')->group(function ()
         {
+            Route::name('ktp.')->prefix('/ktp')->group(function ()
+            {
+                Route::get('/index', [GuruController::class, 'index'])->name('index');
+                Route::get('/create', [GuruController::class, 'create'])->name('create');
+                Route::get('/edit/{kd_guru}', [GuruController::class, 'edit'])->name('edit');
+
+                Route::post('/store', [GuruController::class, 'store'])->name('store');
+                Route::post('/update/{kd_guru}', [GuruController::class, 'update'])->name('update');
+                Route::delete('/delete/{kd_guru}', [GuruController::class, 'destroy'])->name('delete');
+
+                Route::post('/import', [GuruController::class, 'import'])->name('import');
+                Route::get('/export', [GuruController::class, 'export'])->name('export');
+            });
+
+            /**
+             * Master Data Guru
+             */
             Route::name('guru.')->prefix('/guru')->group(function ()
             {
                 Route::get('/index', [GuruController::class, 'index'])->name('index');
@@ -70,6 +86,10 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
                 Route::post('/import', [GuruController::class, 'import'])->name('import');
                 Route::get('/export', [GuruController::class, 'export'])->name('export');
             });
+
+             /**
+             * Master Data Kelas
+             */
             Route::name('kelas.')->prefix('/kelas')->group(function ()
             {
                 Route::get('/index', [KelasController::class, 'index'])->name('index');
@@ -77,9 +97,13 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
                 Route::get('/edit/{kd_kelas}', [KelasController::class, 'edit'])->name('edit');
 
                 Route::post('/store', [KelasController::class, 'store'])->name('store');
-                Route::post('/update/{kd_kelas}', [KelasController::class, 'update'])->name('update');
+                Route::put('/update', [KelasController::class, 'update'])->name('update');
                 Route::delete('/delete/{kd_kelas}', [KelasController::class, 'destroy'])->name('delete');
             });
+
+            /**
+             * Master Data Sub Kelas
+             */
             Route::name('subkelas.')->prefix('/subkelas')->group(function ()
             {
                 Route::get('/index', [SubKelasController::class, 'index'])->name('index');
@@ -90,6 +114,10 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
                 Route::post('/update/{kd_sub_kelas}', [SubKelasController::class, 'update'])->name('update');
                 Route::delete('/delete/{kd_sub_kelas}', [SubKelasController::class, 'destroy'])->name('delete');
             });
+
+            /**
+             * Master Data Jurusan
+             */
             Route::name('jurusan.')->prefix('/jurusan')->group(function ()
             {
                 Route::get('/index', [JurusanController::class, 'index'])->name('index');
@@ -101,7 +129,10 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
                 Route::delete('/delete/{kd_jurusan}', [JurusanController::class, 'destroy'])->name('delete');
             });
 
-            // Siswa CRUD
+            /**
+             * Master Data Siswa
+             * Master Data Siswa Mapping to Class
+             */
             Route::name('siswa.')->prefix('/siswa')->group(function ()
             {
                 Route::get('/index', [SiswaController::class, 'index'])->name('index');
@@ -125,6 +156,9 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
 
             });
 
+            /**
+             * Master Data Mapel
+             */
             Route::name('mapel.')->prefix('/mapel')->group(function ()
             {
                 Route::get('/index', [MataPelajaranController::class, 'index'])->name('index');
@@ -135,6 +169,10 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
                 Route::post('/update', [MataPelajaranController::class, 'update'])->name('update');
                 Route::delete('/delete/{kd_guru}', [MataPelajaranController::class, 'destroy'])->name('delete');
 
+                /**
+                 * Master Data Siswa
+                 * Master Data Mapel Mapping to Guru
+                 */
                 Route::name('mapping.')->prefix('/mapping')->group(function ()
                 {
                     Route::get('/mapping-guru-to-mapel/{kd_kelas}', [MappingMapelController::class, 'index'])->name('index');
@@ -144,14 +182,15 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
                 });
             });
 
-<<<<<<< HEAD
+            /**
+             * Master Data Jadwal
+             */
             Route::name('jadwal.')->prefix('/jadwal')->group(function ()
             {
-               Route::get('/{any}', [JadwalController::class, 'index'])->name('index')->where('any', '*');
+               Route::get('/index', [JadwalController::class, 'index'])->name('index');
+               Route::get('/{id_kelas_sub_jurusan}', [JadwalController::class, 'jadwalKelas'])->name('kelas');
             });
 
-=======
->>>>>>> parent of 0963fce... module jadwal start
         });
          
         Route::get('/dashboard', 'Admin\HomeController@index')->name('index');
@@ -160,8 +199,7 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
         {
            Artisan::call('cache:clear');
         });
-        
-
+    
     });
 });
 

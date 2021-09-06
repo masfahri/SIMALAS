@@ -47,46 +47,33 @@ class GuruRequest extends FormRequest
     public function messages()
     {
         return [
-            'nip' => [
-                
-                'numeric'  => 'NIP Hanya Numerik',
-                'unique'   => 'NIP Sudah Digunakan'
-            ],
-            'jenis_kelamin' => [
-                'required' => 'Jenis Kelamin Dibutuhkan',
-            ],
-            'tanggal_lahir' => [
-                'required' => 'Tanggal Lahir Dibutuhkan',
-                'date'     => 'Tanggal Lahir Hanya Tanggal'
-            ],
-            'tempat_lahir'  => [
-                'required' => 'Tempat Lahir Dibutuhkan',
-            ],
-            'nomor_telf'    => [
-                'required'  => 'Nomor Telf Dibutuhkan',
-                'numeric'   => 'Nomor Telf Hanya Numeric'
-            ],
-            'agama'         => [
-                'required'  => 'Agama Dibutuhkan'
-            ],
-            'status_pernikahan' => [
-                'required' => 'Harap Diisi'
-            ],
-            'nama_ibu' => [
-                'required' => 'Harap Diisi',
-            ],
-            'nama_ayah' => [
-                'required' => 'Harap Diisi'
-            ],
-            'no_sk'         => [
-                'numeric' => 'Nomor SK Hanya Numerik'
-            ],
-            'nuptk'         => [
-                'numeric' => 'NUPTK Harus Numerik'
-            ],
-            'tgl_sk'        => [
-                'date'  => 'Tanggal SK Hanya Tanggal'
-            ],
+            'nip.required' => 'NIP Dibutuhkan',
+            'nip.unique'   => 'NIP Sudah Digunakan',
+            'nip.numeric' => 'NIP Hanya Numerik',
+
+            'jenis_kelamin.required' => 'Jenis Kelamin Dibutuhkan',
+
+            'tanggal_lahir.required' => 'Tanggal Lahir Dibutuhkan',
+            'tanggal_lahir.date'     => 'Tanggal Lahir Hanya Tanggal',
+
+            'tempat_lahir.required' => 'Tempat Lahir Dibutuhkan',
+
+            'nomor_telf.required'  => 'Nomor Telf Dibutuhkan',
+            'nomor_telf.numeric'   => 'Nomor Telf Hanya Numeric',
+
+            'agama.required'  => 'Agama Dibutuhkan',
+
+            'status_pernikahan.required' => 'Harap Diisi',
+
+            'nama_ibu.required' => 'Harap Diisi',
+
+            'nama_ayah.required' => 'Harap Diisi',
+
+            'no_sk.numeric' => 'Nomor SK Hanya Numerik',
+
+            'nuptk.numeric' => 'NUPTK Harus Numerik',
+            
+            'tgl_sk.date'  => 'Tanggal SK Hanya Tanggal'
         ];
     }
 

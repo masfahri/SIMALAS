@@ -15,9 +15,9 @@ class KelasModel extends Model
         'name'
     ];
 
-    public function SubKelas()
+    public function KelasSubJurusan()
     {
-        return $this->hasMany(SubKelas::class, 'kd_sub_kelas');
+        return $this->hasMany(KelasSubJurusanModel::class, 'kd_kelas', 'kd_kelas');
     }
 
     
