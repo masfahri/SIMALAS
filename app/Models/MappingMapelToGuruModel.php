@@ -13,6 +13,7 @@ class MappingMapelToGuruModel extends Model
     protected $fillable = [
         'kd_guru',
         'kd_mapel',
+        'kd_mapping_mapel_to_guru'
     ];
 
     public function Guru()

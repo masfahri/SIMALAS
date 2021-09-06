@@ -56,6 +56,8 @@ class MappingMapelController extends Controller
      */
     public function store(Request $request)
     {
+        count($this->mappingMapelToGuruModel::all()) == 0 ? $data = 0 : $data = $this->mappingMapelToGuruModel->latest('kd_mapping_mapel_to_guru')->first()->kd_mapping_mapel_to_guru;
+        $request['kd_mapping_mapel_to_guru'] = $this->getKodeIncrement($this->mappingMapelToGuruModel, ['data' => $data, 'prefix' => 'GM-', 'length' => 4]);
         for ($i=0; $i < count($request->kd_guru); $i++) { 
             $exists = $this->checkService([
                 'model' => $this->mappingMapelToGuruModel,
@@ -73,6 +75,7 @@ class MappingMapelController extends Controller
                     'data'  => array(
                         'kd_mapel' => $request->kd_mapel,
                         'kd_guru' => $request->kd_guru[$i],
+                        'kd_mapping_mapel_to_guru' => $request['kd_mapping_mapel_to_guru'],
                     ),
                     'pageTitle' => $this->pageTitle,
                     'message' => 'Berhasil'

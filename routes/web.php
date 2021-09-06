@@ -188,7 +188,7 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
             Route::name('jadwal.')->prefix('/jadwal')->group(function ()
             {
                Route::get('/index', [JadwalController::class, 'index'])->name('index');
-               Route::get('/{id_kelas_sub_jurusan}', [JadwalController::class, 'jadwalKelas'])->name('kelas');
+               Route::get('/{id_kelas_sub_jurusan}', [JadwalController::class, 'show'])->name('kelas');
             });
 
         });

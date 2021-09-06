@@ -14,6 +14,7 @@ class JadwalController extends Controller
         $this->kelas = $kelas;
         $this->pageTitle = 'Jadwal Pelajaran';
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -57,8 +58,11 @@ class JadwalController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        return view('Admin.pages.Jadwal.kelas', [
+            'kelas'     => $this->kelas::all(),
+            'mapels'     => $this->getModel(MataPelajaranModel::class),
+            'pageTitle' => $this->pageTitle
+        ]);    }
 
     /**
      * Show the form for editing the specified resource.
