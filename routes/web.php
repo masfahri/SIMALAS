@@ -144,14 +144,6 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
                 });
             });
 
-<<<<<<< HEAD
-            Route::name('jadwal.')->prefix('/jadwal')->group(function ()
-            {
-               Route::get('/{any}', [JadwalController::class, 'index'])->name('index')->where('any', '*');
-            });
-
-=======
->>>>>>> parent of 0963fce... module jadwal start
         });
          
         Route::get('/dashboard', 'Admin\HomeController@index')->name('index');
