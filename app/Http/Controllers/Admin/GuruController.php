@@ -84,7 +84,7 @@ class GuruController extends Controller
                     'name' => $request['name']
                 ]);
                 $user->assignRole('Guru');
-                $this->guruModel::create([
+                $guru = $this->guruModel::create([
                     'kd_guru'   => $kd_guru,
                     'user_id'   => $user->id,
                     'nip'   => $request['nip'],
@@ -109,6 +109,7 @@ class GuruController extends Controller
                 return redirect()->route('admin.master.guru.index')->with('success', 'Guru baru dengan nama '.$request['name'].' Berhasil Ditambahkan');
             } catch (\Throwable $th) {
                 DB::rollback();
+                dd($th->getMessage());
                 return redirect()->back()->with('error', $th->getMessage());
             }
         }else{

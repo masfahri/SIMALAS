@@ -22,7 +22,7 @@ class CreateGuruModelsTable extends Migration
             $table->enum('jenis_kelamin', ['L', 'P'])->default('L');
             $table->enum('flag', ['active', 'de-active'])->default('active');
             $table->String('tempat_lahir')->nullable();
-            $table->date('tanngal_lahir')->nullable();
+            $table->date('tanggal_lahir')->nullable();
             $table->string('nomor_telf')->nullable();
             $table->string('pas_foto')->nullable();
             $table->enum('agama', ['islam', 'hindu', 'budha', 'kristen', 'protestan', 'lainnya'])->default('islam');
@@ -32,11 +32,11 @@ class CreateGuruModelsTable extends Migration
             $table->enum('status_kepegawaian', ['honorer', 'pns'])->default('honorer');
             $table->enum('jenis_ptk', ['Sertifikasi', 'Belum Sertifikasi'])->default('Sertifikasi');
             $table->string('lembaga_sertifikasi')->nullable();
-            $table->integer('no_sk')->nullable();
+            $table->String('no_sk')->nullable();
             $table->date('tgl_sk')->nullable();
-            $table->bigInteger('nuptk')->nullable();
+            $table->String('nuptk')->nullable();
             $table->date('tmt_tugas')->nullable();
-            $table->date('tugas_tambahan')->nullable();
+            $table->String('tugas_tambahan')->nullable();
             $table->string('created_by')->nullable();
             $table->timestamps();
         });
