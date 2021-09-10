@@ -23,7 +23,7 @@
                                     <div class="form-group">
                                         <h5>Email <span class="text-danger">*</span></h5>
                                         <div class="controls">
-                                            <input value="{{ $guru->GuruToUser->email }}" type="email" name="email" class="form-control" required data-validation-required-message="This field is required"> </div>
+                                            <input value="{{ $guru->GuruToUser->email }}" type="email" name="email" class="form-control" required  data-validation-required-message="This field is required"> </div>
                                     </div>
                                     <div class="form-group">
                                         <h5>Nama Lengkap <span class="text-danger">*</span></h5>

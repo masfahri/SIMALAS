@@ -162,9 +162,16 @@ class GuruController extends Controller
     {
         try {
             $guru = $this->guruModel::where('kd_guru', $id)->first();
+            $user = $guru->GuruToUser;
             DB::beginTransaction();
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+            ]);
+
             $guru->update([
                 'nip'           => $request->nip,
+                'name'          => $request->name,
                 'jenis_kelamin' => $request->jenis_kelamin,
                 'tempat_lahir'  => $request->tempat_lahir,
                 'tanggal_lahir' => $request->tanggal_lahir,
