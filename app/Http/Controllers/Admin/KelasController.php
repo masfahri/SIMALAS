@@ -34,12 +34,13 @@ class KelasController extends Controller
      */
     public function index()
     {
+        $data_guru = $this->guruModel->MappingKelasJurusan();
         return view('Admin.pages.Kelas.index', [
             'pageTitle'          => 'Manajemen Kelas',
             'jurusan'            => $this->jurusanModel::pluck('name', 'kd_jurusan'),
             'sub_kelas'          => $this->subKelasModel::pluck('name', 'kd_sub_kelas'),
             'kelas'              => $this->kelasModel::pluck('name', 'kd_kelas'),
-            'guru'               => $this->guruModel::all(),
+            'guru'               => $data_guru,
             'kelasSubJurusan'    => $this->kelasSubJurusanModel::all()
         ]);
     }

@@ -69,7 +69,6 @@ class SiswaImport implements ToCollection, WithHeadingRow
                     'nomor_telf'    => $row['nomor_telf'],
                     'nama_ibu'      => $row['nama_ibu'],
                     'nama_ayah'     => $row['nama_ayah'],
-                    'nomor_telf'    => $row['nomor_telf']
                 ]);
             }
             DB::commit();

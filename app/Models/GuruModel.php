@@ -60,4 +60,10 @@ class GuruModel extends Model
         return $this->leftJoin('mapping_mapel_to_guru', 'guru.kd_guru', '=', 'mapping_mapel_to_guru.kd_guru')
         ->where(array('mapping_mapel_to_guru.kd_guru' => 'null'))->get();
     }
+
+    public function MappingKelasJurusan()
+    {
+        return $this->leftJoin('kelas_sub_jurusan', 'guru.kd_guru', '=', 'kelas_sub_jurusan.kd_guru')
+        ->where('kelas_sub_jurusan.kd_guru')->get();
+    }
 }
