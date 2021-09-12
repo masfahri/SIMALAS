@@ -40,6 +40,7 @@ class CRUDServices
             }
         } catch (\Throwable $th) {
             DB::rollback();
+            dd($th->getMessage());
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }
     }

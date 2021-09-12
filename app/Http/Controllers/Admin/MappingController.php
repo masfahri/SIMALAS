@@ -28,7 +28,7 @@ class MappingController extends Controller
     {
         $siswa = $this->siswaModel::leftJoin('mapping_siswa_to_kelas', 'siswa.kd_siswa', '=', 'mapping_siswa_to_kelas.kd_siswa')
                                     ->where('mapping_siswa_to_kelas.kd_siswa')->get();
-        $data = $this->mappingSiswaToKelasModel::where('kd_kelas', request()->segment(6))->get();
+        $data = $this->mappingSiswaToKelasModel::where('kelas_sub_jurusan_id', request()->segment(6))->get();
         return view('Admin.pages.Siswa.mapping', [
             'pageTitle' => 'Mapping',
             'siswa'      => $siswa,
@@ -55,12 +55,12 @@ class MappingController extends Controller
     public function store(Request $request)
     {
         count($this->mappingSiswaToKelasModel::all()) == 0 ? $data = 0 : $data = $this->mappingSiswaToKelasModel->latest('kd_mapping_siswa_to_kelas')->first()->kd_mapping_siswa_to_kelas;
-        $request['kd_mapping_siswa_to_kelas'] = $this->getKodeIncrement($this->mappingSiswaToKelasModel, ['data' => $data, 'prefix' => 'MP-', 'length' => 4]);
+        $request['kd_mapping_siswa_to_kelas'] = $this->getKodeIncrement($this->mappingSiswaToKelasModel, ['data' => $data, 'prefix' => 'MPS-', 'length' => 5]);
         for ($i=0; $i < count($request->kd_siswa); $i++) { 
             $create = $this->createService([
                 'model' => $this->mappingSiswaToKelasModel,
                 'data'  => array(
-                    'kd_kelas' => $request->kd_kelas,
+                    'kelas_sub_jurusan_id' => $request->kd_kelas,
                     'kd_siswa' => $request->kd_siswa[$i],
                     'kd_mapping_siswa_to_kelas' => $request->kd_mapping_siswa_to_kelas,
                 ),

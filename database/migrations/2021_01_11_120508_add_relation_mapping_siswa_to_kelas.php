@@ -16,7 +16,7 @@ class AddRelationMappingSiswaToKelas extends Migration
         Schema::table('mapping_siswa_to_kelas', function (Blueprint $table) {
             $table->foreign('kd_siswa')->references('kd_siswa')->on('siswa')
             ->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->foreign('kd_kelas')->references('kd_kelas')->on('kelas')
+            $table->foreign('kd_kelas')->references('id')->on('kelas_sub_jurusan')
             ->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }

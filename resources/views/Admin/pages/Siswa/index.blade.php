@@ -13,7 +13,7 @@
                           <ol class="breadcrumb">
                               <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
                               <li class="breadcrumb-item" aria-current="page">Tabel</li>
-                              <li class="breadcrumb-item active" aria-current="page">Data Guru</li>
+                              <li class="breadcrumb-item active" aria-current="page">Data Siswa</li>
                           </ol>
                       </nav>
                   </div>
@@ -34,7 +34,7 @@
                     'import' => route('admin.master.siswa.import'),
                     'create' => route('admin.master.siswa.create')
                 ),
-                'th'        => array('Nip', 'Nama', 'Email', 'Foto', 'Aksi')
+                'th'        => array('NIS', 'Nama', 'Email', 'Foto', 'Aksi')
             ]);
             @endcomponent   
           </div> 

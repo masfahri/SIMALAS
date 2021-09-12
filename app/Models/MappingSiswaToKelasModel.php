@@ -13,7 +13,7 @@ class MappingSiswaToKelasModel extends Model
     protected $fillable = [
         'kd_mapping_siswa_to_kelas',
         'kd_siswa',
-        'kd_kelas',
+        'kelas_sub_jurusan_id',
     ];
 
     public function Siswa()
@@ -23,6 +23,6 @@ class MappingSiswaToKelasModel extends Model
 
     public function Kelas()
     {
-        return $this->hasOne(KelasModel::class, 'kd_kelas', 'kd_kelas');
+        return $this->hasOne(KelasSubJurusanModel::class, 'id', 'kelas_sub_jurusan_id');
     }
 }
