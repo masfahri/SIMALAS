@@ -189,6 +189,9 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
             {
                Route::get('/index', [JadwalController::class, 'index'])->name('index');
                Route::get('/{id_kelas_sub_jurusan}', [JadwalController::class, 'show'])->name('kelas');
+               Route::get('/{id_kelas_sub_jurusan}/{hari}', [JadwalController::class, 'hari'])->name('hari');
+
+               Route::post('/store/{id_kelas_jurusan}', [JadwalController::class, 'store'])->name('store');
             });
 
         });

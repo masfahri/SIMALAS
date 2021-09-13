@@ -16,6 +16,11 @@ class MappingJadwalPelajaranModel extends Model
         'kd_mapels',
         'kd_kelas_sub_jur'
     ];
+
+    public function exists($kd_kelas_sub_jur, $hari)
+    {
+        return $this->where(array('kd_kelas_sub_jur' => $kd_kelas_sub_jur, 'hari' => $hari))->get();
+    }
     
     /**
      * Get the Kelas associated with the MappingJadwalPelajaranModel

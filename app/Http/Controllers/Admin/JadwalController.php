@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\KelasModel;
-use App\Models\KelasSubJurusanModel;
-use App\Models\MataPelajaranModel;
 use Illuminate\Http\Request;
+use App\Models\MataPelajaranModel;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Models\KelasSubJurusanModel;
+use App\Services\AutoIncrementServices;
+use App\Models\MappingJadwalPelajaranModel;
+
+use App\Exceptions\ModelIsExistsException;
 
 class JadwalController extends Controller
 {
-    public function __construct(KelasModel $kelas) {
+    public function __construct(KelasModel $kelas, MappingJadwalPelajaranModel $mappingJadwalPelajaranModel, KelasSubJurusanModel $kelasSubJurusanModel) {
         $this->kelas = $kelas;
+        $this->mappingJadwalPelajaranModel = $mappingJadwalPelajaranModel;
+        $this->kelasSubJurusanModel = $kelasSubJurusanModel;
         $this->pageTitle = 'Jadwal Pelajaran';
     }
 
@@ -47,7 +54,36 @@ class JadwalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $kd_jadwal_pelajaran = $this->getKodeJadwalPelajaran();
+        $kelas_sub_jurusan = $this->kelasSubJurusanModel::find($request->kd_kelas_sub_jur);
+        $kelas = $kelas_sub_jurusan->kd_kelas.$kelas_sub_jurusan->kd_sub_kelas;
+
+        try {
+            DB::beginTransaction();
+            $exists = $this->mappingJadwalPelajaranModel->exists($request->kd_kelas_sub_jur, $request->hari);
+            if ($exists->count() == 0) {
+                $this->createService([
+                    'model' => $this->mappingJadwalPelajaranModel,
+                    'data'  => array(
+                        'kd_mapping_jadwal_pelajaran' => $kd_jadwal_pelajaran,
+                        'hari' => $request->hari,
+                        'kd_mapels' => json_encode($request->kd_mapels),
+                        'kd_kelas_sub_jur' => $request->kd_kelas_sub_jur
+                    ),
+                    'pageTitle' => 'Jadwal',
+                    'message' => 'Berhasil'
+                ]); 
+                $kelas_sub_jurusan = $this->kelasSubJurusanModel::find($request->kd_kelas_sub_jur);
+                $kelas = $kelas_sub_jurusan->kd_kelas.$kelas_sub_jurusan->kd_sub_kelas;
+                DB::commit();
+                return redirect()->back()->with(['success' => 'Jadwal ' . $kelas . ' Pada Hari '.$request->hari.' Berhasil Ditambahkan']);
+            }else{
+                throw new ModelIsExistsException('Jadwal ' . $kelas . ' Pada Hari '.$request->hari.' Sudah Ditambahkan');
+            }
+        } catch (\Throwable $th) {
+            DB::rollback();
+            dd($th->getMessage());
+        }
     }
 
     /**
@@ -59,10 +95,29 @@ class JadwalController extends Controller
     public function show($id)
     {
         return view('Admin.pages.Jadwal.kelas', [
-            'kelas'     => $this->kelas::all(),
+            'data'      => $this->mappingJadwalPelajaranModel::where('kd_kelas_sub_jur', $id),
+            'kelas'     => $this->kelasSubJurusanModel::find($id),
             'mapels'     => $this->getModel(MataPelajaranModel::class),
             'pageTitle' => $this->pageTitle
-        ]);    }
+        ]);   
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function hari($id, $hari)
+    {
+        return view('Admin.pages.Jadwal.kelas', [
+            'data'      => $this->mappingJadwalPelajaranModel::where(array('kd_kelas_sub_jur' => $id, 'hari' => $hari))->first(),
+            'kelas'     => $this->kelasSubJurusanModel::find($id),
+            'mapels'     => $this->getModel(MataPelajaranModel::class),
+            'pageTitle' => $this->pageTitle
+        ]);
+        
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -99,18 +154,16 @@ class JadwalController extends Controller
     }
 
     /**
-     * Get Jadwal Per Kelas
+     * Get Kode Guru Last
      * 
-     * @param int $id_kelas_sub_jurusan
-     * @return array
+     * @return String
      */
-    public function jadwalKelas($id_kelas_sub_jurusan)
+    public function getKodeJadwalPelajaran()
     {
-        dd($this->mapelModel::all());
-        return view('Admin.pages.Jadwal.index', [
-            'kelas'     => $this->kelas::all(),
-            'mapels'     => $this->mapelModel::all(),
-            'pageTitle' => $this->pageTitle
-        ]);
+        $autoIncrementServices = new AutoIncrementServices();
+        $mappingJadwalPelajaranModel = new MappingJadwalPelajaranModel();
+        count($mappingJadwalPelajaranModel::all()) == 0 ? $jadwalPelajaran = 0 : $jadwalPelajaran = $mappingJadwalPelajaranModel->latest('kd_mapping_jadwal_pelajaran')->first()->kd_mapping_jadwal_pelajaran;
+        $kd_jadwal_pelajaran = $autoIncrementServices->handleIncrement(['data' => $jadwalPelajaran, 'prefix' => 'JDWL-', 'length' => 5]);
+        return $kd_jadwal_pelajaran;
     }
 }
