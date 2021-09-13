@@ -42,6 +42,6 @@ class KelasSubJurusanModel extends Model
 
     public function MappingSiswa()
     {
-        return $this->hasMany(MappingSiswaToKelasModel::class, 'kd_kelas', 'id');
+        return $this->hasMany(MappingSiswaToKelasModel::class, 'kelas_sub_jurusan_id', 'id');
     }
 }

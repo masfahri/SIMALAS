@@ -50,8 +50,6 @@ class GuruModel extends Model
 
     public function MataPelajaran()
     {
-        // return $this->leftJoin('mapping_mapel_to_guru', 'guru.kd_guru', '=', 'mapping_mapel_to_guru.kd_guru')
-        // ->where('mapping_mapel_to_guru.kd_guru')->get();
         return $this->hasMany(MappingMapelToGuruModel::class, 'kd_guru', 'kd_guru');
     }
 
