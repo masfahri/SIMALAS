@@ -226,7 +226,10 @@ class GuruController extends Controller
     {
         $file = $request->file_import;
         try {
-            Excel::import(new GuruImport, $file->getRealPath());
+            $path1 = $request->file('file_import')->store('temp'); 
+            $path=storage_path('app').'/'.$path1;  
+            Excel::import(new GuruImport,$path);
+            // Excel::import(new GuruImport, $file->getRealPath());
             return redirect()->route('admin.master.guru.index')->with(['success' => 'Berhasil Import Data Guru']);
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $failures = $e->failures();

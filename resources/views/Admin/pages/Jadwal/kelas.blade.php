@@ -40,11 +40,15 @@
                           @if (Request::segment(5) == null)
                             <br><center><h1>Mohon Pilih Hari</h1><center>
                           @else
+                            @if ($data == null)
+                              <br><center><h1>Belum Ada Jadwal Dipilih</h1><center>
+                            @else
                               @component('Components.Admin.Table.Jadwal', [
                                 'matapelajaran' => $data
                               ])
                                   
                               @endcomponent
+                            @endif
                           @endif
                         </div>                
                       <!-- /.table -->
@@ -92,8 +96,7 @@
                           </select>
                         </div>
                         {!! Form::hidden('kd_kelas_sub_jur', Request::segment(4)) !!}
-
-                          <label for="pilihmapel">Pilih Mata Pelajaran</label><br>
+                        <label for="pilihmapel">Pilih Mata Pelajaran</label><br>
                           @foreach ($mapels as $mapel)
                           <div class="form-group">
                             <input type="checkbox" id="{{ $mapel->kd_mapel }}" name="kd_mapels[]" value="{{ $mapel->kd_mapel }}">
@@ -143,7 +146,22 @@
 <script>
 
 $('input[type=checkbox]').change(function () {
-    alert('changed');
+    if ($(this).is(':checked')) {
+      $.getJSON("/admin/master/mapel/mapping/guruMapels/"+ $(this).val(), function(jsonData){
+            select = '<select name="position" class="form-control input-sm " required id="position" >';
+              $.each(jsonData, function(i,data)
+              {
+                console.log(data)
+                select +='<option value="'+data.position_id+'">'+data.name+'</option>';
+              });
+            select += '</select>';
+            $("#position").html(select);
+            console.log(jsonData)
+        });
+    }else{
+      alert('test123')
+    }
+  
 });
 
 </script>

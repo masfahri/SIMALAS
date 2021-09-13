@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\GuruModel;
 use Illuminate\Http\Request;
+use App\Models\MataPelajaranModel;
 use App\Http\Controllers\Controller;
 use App\Models\MappingMapelToGuruModel;
-use App\Models\MataPelajaranModel;
 
 class MappingMapelController extends Controller
 {
@@ -97,6 +97,18 @@ class MappingMapelController extends Controller
     public function show($id)
     {
         //
+    }
+
+    /**
+     * Display all Guru from kd_mapel
+     * 
+     * @param String $kd_mapel
+     * @return Collection Mapping Mapel to Guru Model
+     */
+    public function getAllGuru($kd_mapel)
+    {
+        $data = $this->mappingMapelToGuruModel::where('kd_mapel', $kd_mapel)->get();
+        return \Response::json($data);
     }
 
     /**

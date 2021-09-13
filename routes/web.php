@@ -87,7 +87,7 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
                 Route::get('/export', [GuruController::class, 'export'])->name('export');
             });
 
-             /**
+            /**
              * Master Data Kelas
              */
             Route::name('kelas.')->prefix('/kelas')->group(function ()
@@ -170,8 +170,9 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
                 Route::delete('/delete/{kd_guru}', [MataPelajaranController::class, 'destroy'])->name('delete');
 
                 /**
-                 * Master Data Siswa
+                 * 
                  * Master Data Mapel Mapping to Guru
+                 * 
                  */
                 Route::name('mapping.')->prefix('/mapping')->group(function ()
                 {
@@ -179,6 +180,11 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
                     Route::post('/mapping-guru-to-mapel', [MappingMapelController::class, 'store'])->name('store');
                     Route::put('/mapping-guru-to-mapel', [MappingMapelController::class, 'update'])->name('update');
                     Route::delete('/mapping-guru-to-mapel/{id}', [MappingMapelController::class, 'destroy'])->name('delete');
+
+                    /**
+                     * Get Data Mapel JSON
+                     */
+                    Route::get('/guruMapels/{kd_mapel}', [MappingMapelController::class, 'getAllGuru'])->name('getAllGuru');
                 });
             });
 
