@@ -56,9 +56,10 @@ class MappingMapelController extends Controller
      */
     public function store(Request $request)
     {
-        count($this->mappingMapelToGuruModel::all()) == 0 ? $data = 0 : $data = $this->mappingMapelToGuruModel->latest('kd_mapping_mapel_to_guru')->first()->kd_mapping_mapel_to_guru;
-        $request['kd_mapping_mapel_to_guru'] = $this->getKodeIncrement($this->mappingMapelToGuruModel, ['data' => $data, 'prefix' => 'GM-', 'length' => 4]);
+        
+
         for ($i=0; $i < count($request->kd_guru); $i++) { 
+            
             $exists = $this->checkService([
                 'model' => $this->mappingMapelToGuruModel,
                 'data'  => array(
@@ -68,8 +69,11 @@ class MappingMapelController extends Controller
                 'pageTitle' => $this->pageTitle,
                 'message'   => 'Guru '.$request->kd_guru[$i].' dan Mata Pelajaran '.$request->kd_mapel.' Sudah di Mapping'
             ]);
+            
             $mapel = $this->mapelModel::where('kd_mapel', $request->kd_mapel)->first();
             if (!$exists) {
+                count($this->mappingMapelToGuruModel::all()) == 0 ? $data = 0 : $data = $this->mappingMapelToGuruModel->latest('kd_mapping_mapel_to_guru')->first()->kd_mapping_mapel_to_guru;
+                $request['kd_mapping_mapel_to_guru'] = $this->getKodeIncrement($this->mappingMapelToGuruModel, ['data' => $data, 'prefix' => 'GM-', 'length' => 4]);
                 $create = $this->createService([
                     'model' => $this->mappingMapelToGuruModel,
                     'data'  => array(
@@ -80,6 +84,7 @@ class MappingMapelController extends Controller
                     'pageTitle' => $this->pageTitle,
                     'message' => 'Berhasil'
                 ]);
+                
             }else{
                 $message[$i] = 'Guru '.$request->kd_guru[$i].' dan Mata Pelajaran '.$mapel->nama_mapel.' Sudah di Mapping';
                 $create = redirect()->back()->with(['error' => $message]);
@@ -107,7 +112,7 @@ class MappingMapelController extends Controller
      */
     public function getAllGuru($kd_mapel)
     {
-        $data = $this->mappingMapelToGuruModel::where('kd_mapel', $kd_mapel)->get();
+        $data = $this->mappingMapelToGuruModel::where('kd_mapel', $kd_mapel)->with('guru.GuruToUser')->get();
         return \Response::json($data);
     }
 

@@ -44,7 +44,7 @@
                               <br><center><h1>Belum Ada Jadwal Dipilih</h1><center>
                             @else
                               @component('Components.Admin.Table.Jadwal', [
-                                'matapelajaran' => $data
+                                'data' => $data
                               ])
                                   
                               @endcomponent
@@ -101,6 +101,9 @@
                           <div class="form-group">
                             <input type="checkbox" id="{{ $mapel->kd_mapel }}" name="kd_mapels[]" value="{{ $mapel->kd_mapel }}">
                             <label for="{{ $mapel->kd_mapel }}"> {{ $mapel->nama_mapel }}</label><br>
+                            <div id="test{{ $mapel->kd_mapel }}">
+
+                            </div>
                           </div>
                           <div class="form-group" id="pilihguru{{ $mapel->kd_mapel }}" style="display: none;">
                             <select class="form-control select2">
@@ -146,20 +149,29 @@
 <script>
 
 $('input[type=checkbox]').change(function () {
+    var idSelectGuru = 'test'+$(this).val();
     if ($(this).is(':checked')) {
       $.getJSON("/admin/master/mapel/mapping/guruMapels/"+ $(this).val(), function(jsonData){
-            select = '<select name="position" class="form-control input-sm " required id="position" >';
+        if (jsonData.length > 0) {
+          select = '<select name="kd_mapping_mapel_to_guru[]" class="form-control input-sm " required id="position" >';
               $.each(jsonData, function(i,data)
               {
                 console.log(data)
-                select +='<option value="'+data.position_id+'">'+data.name+'</option>';
+                select +='<option value="'+data.kd_mapping_mapel_to_guru+'">'+data.guru.guru_to_user.name+'</option>';
               });
             select += '</select>';
-            $("#position").html(select);
-            console.log(jsonData)
-        });
+            
+            console.log(jsonData.length)
+            $("#"+idSelectGuru).html(select);
+            $("#"+idSelectGuru).show();
+        } else {
+          alertSpan = '<span style="color:red"> Guru Mata Pelajaran Belum di Input </span>'
+          $("#"+idSelectGuru).html(alertSpan);
+          $("#"+idSelectGuru).show();
+        }
+      });
     }else{
-      alert('test123')
+      $('#'+idSelectGuru).hide();
     }
   
 });

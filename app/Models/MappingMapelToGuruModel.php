@@ -18,6 +18,11 @@ class MappingMapelToGuruModel extends Model
 
     public function Guru()
     {
+        return $this->hasOne(GuruModel::class, 'kd_guru', 'kd_guru');
+    }
+
+    public function Gurus()
+    {
         return $this->hasMany(GuruModel::class, 'kd_guru', 'kd_guru');
     }
 

@@ -12,6 +12,7 @@ use App\Services\AutoIncrementServices;
 use App\Models\MappingJadwalPelajaranModel;
 
 use App\Exceptions\ModelIsExistsException;
+use App\Models\MappingMapelToGuruModel;
 
 class JadwalController extends Controller
 {
@@ -67,7 +68,7 @@ class JadwalController extends Controller
                     'data'  => array(
                         'kd_mapping_jadwal_pelajaran' => $kd_jadwal_pelajaran,
                         'hari' => $request->hari,
-                        'kd_mapels' => json_encode($request->kd_mapels),
+                        'kd_mapels' => json_encode($request->kd_mapping_mapel_to_guru),
                         'kd_kelas_sub_jur' => $request->kd_kelas_sub_jur
                     ),
                     'pageTitle' => 'Jadwal',
@@ -110,8 +111,10 @@ class JadwalController extends Controller
      */
     public function hari($id, $hari)
     {
+        $jadwal_mapel = $this->mappingJadwalPelajaranModel::where(array('kd_kelas_sub_jur' => $id, 'hari' => $hari))->first()->kd_mapels;
+        $data = MappingMapelToGuruModel::whereIn('kd_mapping_mapel_to_guru', json_decode($jadwal_mapel))->get();
         return view('Admin.pages.Jadwal.kelas', [
-            'data'      => $this->mappingJadwalPelajaranModel::where(array('kd_kelas_sub_jur' => $id, 'hari' => $hari))->first(),
+            'data' => $data,
             'kelas'     => $this->kelasSubJurusanModel::find($id),
             'mapels'     => $this->getModel(MataPelajaranModel::class),
             'pageTitle' => $this->pageTitle

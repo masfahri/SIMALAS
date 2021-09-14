@@ -30,10 +30,9 @@
             </thead>
             <tbody>
                 @foreach ($data as $item)
-                    @foreach ($item->Guru as $guru)
                     <tr>
                         <td>{{ $item->kd_guru }}</td>
-                        <td>{{ $guru->GuruToUser->name }}</td>
+                        <td>{{ $item->guru->GuruToUser->name }}</td>
                         <td>
                             <a onclick="event.preventDefault(); confirm ('Yakin?'); document.getElementById('delete{{ $item->id }}').submit();" href="#"><span class="fa fa-trash fa-lg" style="font-size: 20"></span></a></center>
                             <form id="delete{{ $item->id }}" action="{{ route('admin.master.mapel.mapping.delete', $item->id) }}" method="POST" style="display:none">
@@ -43,7 +42,6 @@
                             </form>
                         </td>
                     </tr>
-                    @endforeach
                 @endforeach
             </tbody>
             <tfoot>

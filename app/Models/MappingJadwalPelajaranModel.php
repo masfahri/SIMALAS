@@ -32,4 +32,14 @@ class MappingJadwalPelajaranModel extends Model
         return $this->hasOne(KelasSubJurusan::class, 'id', 'kd_kelas_sub_jur');
     }
 
+    /**
+     * Get all of the Mapels for the MappingJadwalPelajaranModel
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function Mapels($kd_mapel_guru)
+    {
+        
+    }
+
 }
