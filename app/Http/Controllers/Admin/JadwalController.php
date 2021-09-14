@@ -111,12 +111,12 @@ class JadwalController extends Controller
      */
     public function hari($id, $hari)
     {
-        $jadwal_mapel = $this->mappingJadwalPelajaranModel::where(array('kd_kelas_sub_jur' => $id, 'hari' => $hari))->first()->kd_mapels;
-        $data = MappingMapelToGuruModel::whereIn('kd_mapping_mapel_to_guru', json_decode($jadwal_mapel))->get();
+        $jadwal_mapel = $this->mappingJadwalPelajaranModel::where(array('kd_kelas_sub_jur' => $id, 'hari' => $hari))->first();
+        $jadwal_mapel != null ? $mappingMapelToGuru = MappingMapelToGuruModel::whereIn('kd_mapping_mapel_to_guru', json_decode($jadwal_mapel->kd_mapels))->get() : $mappingMapelToGuru = null;
         return view('Admin.pages.Jadwal.kelas', [
-            'data' => $data,
+            'data'      => $mappingMapelToGuru,
             'kelas'     => $this->kelasSubJurusanModel::find($id),
-            'mapels'     => $this->getModel(MataPelajaranModel::class),
+            'mapels'    => $this->getModel(MataPelajaranModel::class),
             'pageTitle' => $this->pageTitle
         ]);
         

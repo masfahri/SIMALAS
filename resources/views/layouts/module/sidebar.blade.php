@@ -31,7 +31,6 @@
           <ul class="treeview-menu">			
             <li><a href="{{ route('admin.master.jadwal.index') }}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Jadwal</a></li>
             <li><a href="{{ route('admin.master.kelas.index') }}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Kelas</a></li>
-            <li><a href="{{ route('admin.master.siswa.index') }}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Siswa</a></li>
           </ul>
         </li>
         <hr>  

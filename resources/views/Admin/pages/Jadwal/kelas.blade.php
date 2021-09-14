@@ -97,20 +97,26 @@
                         </div>
                         {!! Form::hidden('kd_kelas_sub_jur', Request::segment(4)) !!}
                         <label for="pilihmapel">Pilih Mata Pelajaran</label><br>
-                          @foreach ($mapels as $mapel)
-                          <div class="form-group">
-                            <input type="checkbox" id="{{ $mapel->kd_mapel }}" name="kd_mapels[]" value="{{ $mapel->kd_mapel }}">
-                            <label for="{{ $mapel->kd_mapel }}"> {{ $mapel->nama_mapel }}</label><br>
-                            <div id="test{{ $mapel->kd_mapel }}">
+                        @for ($i = 0; $i < count($mapels); $i++)
+                        <div class="form-group">
+                          <input 
 
-                            </div>
+                          @if (isset($data[$i]))
+                                  checked
+                          @endif
+
+                          type="checkbox" id="{{ $mapels[$i]->kd_mapel }}" name="kd_mapels[]" value="{{ $mapels[$i]->kd_mapel }}" >
+                          <label for="{{ $mapels[$i]->kd_mapel }}"> {{ $mapels[$i]->nama_mapel }}</label><br>
+                          <div id="test{{ $mapels[$i]->kd_mapel }}">
+
                           </div>
-                          <div class="form-group" id="pilihguru{{ $mapel->kd_mapel }}" style="display: none;">
-                            <select class="form-control select2">
-                              <option value="">ASd</option>
-                            </select>
-                          </div>
-                          @endforeach
+                        </div>
+                        <div class="form-group" id="pilihguru{{ $mapels[$i]->kd_mapel }}" style="display: none;">
+                          <select class="form-control select2">
+                            <option value="">Pilih</option>
+                          </select>
+                        </div>
+                        @endfor
                         <div class="from-group" style="margin-bottom: 10px">
                         {!! Form::submit('Simpan', ['class' => 'btn btn-primary']) !!}
                         </div>
