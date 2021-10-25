@@ -46,11 +46,11 @@
                               @component('Components.Admin.Table.Jadwal', [
                                 'data' => $data
                               ])
-                                  
+
                               @endcomponent
                             @endif
                           @endif
-                        </div>                
+                        </div>
                       <!-- /.table -->
                     </div>
                     <!-- /.mail-box-messages -->
@@ -64,7 +64,7 @@
                 <div class="box-header with-border">
                     <h4 class="box-title">Kelas</h4>
                     <ul class="box-controls pull-right">
-                    <li><a class="box-btn-slide" href="#"></a></li>	
+                    <li><a class="box-btn-slide" href="#"></a></li>
                     </ul>
                 </div>
                   <h5 class="nav-link"><i class="fa fa-circle-o text-danger"></i>{{ $kelas->kd_kelas }} - {{ $kelas->kd_sub_kelas }} ({{ $kelas->Guru->GuruToUser->name }})</h5>
@@ -75,7 +75,7 @@
                 <div class="box-header with-border">
                 <h4 class="box-title">Mata Pelajaran</h4>
                 <ul class="box-controls pull-right">
-                    <li><a class="box-btn-slide" href="#"></a></li>	
+                    <li><a class="box-btn-slide" href="#"></a></li>
                 </ul>
                 </div>
                 <div class="box-body no-padding mailbox-nav">
@@ -99,12 +99,7 @@
                         <label for="pilihmapel">Pilih Mata Pelajaran</label><br>
                         @for ($i = 0; $i < count($mapels); $i++)
                         <div class="form-group">
-                          <input 
-
-                          @if (isset($data[$i]))
-                                  checked
-                          @endif
-
+                          <input
                           type="checkbox" id="{{ $mapels[$i]->kd_mapel }}" name="kd_mapels[]" value="{{ $mapels[$i]->kd_mapel }}" >
                           <label for="{{ $mapels[$i]->kd_mapel }}"> {{ $mapels[$i]->nama_mapel }}</label><br>
                           <div id="test{{ $mapels[$i]->kd_mapel }}">
@@ -166,7 +161,7 @@ $('input[type=checkbox]').change(function () {
                 select +='<option value="'+data.kd_mapping_mapel_to_guru+'">'+data.guru.guru_to_user.name+'</option>';
               });
             select += '</select>';
-            
+
             console.log(jsonData.length)
             $("#"+idSelectGuru).html(select);
             $("#"+idSelectGuru).show();
@@ -179,7 +174,7 @@ $('input[type=checkbox]').change(function () {
     }else{
       $('#'+idSelectGuru).hide();
     }
-  
+
 });
 
 </script>

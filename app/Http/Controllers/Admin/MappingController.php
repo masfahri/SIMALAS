@@ -56,7 +56,7 @@ class MappingController extends Controller
     {
         count($this->mappingSiswaToKelasModel::all()) == 0 ? $data = 0 : $data = $this->mappingSiswaToKelasModel->latest('kd_mapping_siswa_to_kelas')->first()->kd_mapping_siswa_to_kelas;
         $request['kd_mapping_siswa_to_kelas'] = $this->getKodeIncrement($this->mappingSiswaToKelasModel, ['data' => $data, 'prefix' => 'MPS-', 'length' => 5]);
-        for ($i=0; $i < count($request->kd_siswa); $i++) { 
+        for ($i=0; $i < count($request->kd_siswa); $i++) {
             $create = $this->createService([
                 'model' => $this->mappingSiswaToKelasModel,
                 'data'  => array(

@@ -37,7 +37,7 @@ Route::namespace('Auth')->name('auth.')->prefix('auth/')->group(function ()
         Route::get('index',[LoginController::class, 'index'])->name('index');
         Route::post('process',[LoginController::class, 'store'])->name('store');
     });
-    
+
     Route::name('register.')->prefix('register/')->group(function ()
     {
         Route::get('/index', [RegisterController::class, 'index'])->name('index');
@@ -53,7 +53,7 @@ Route::namespace('Auth')->name('auth.')->prefix('auth/')->group(function ()
 Route::group(['middleware' => ['role:Admin', 'auth']], function () {
     Route::name('admin.')->prefix('/admin')->group(function ()
     {
-        
+
         Route::name('master.')->prefix('/master')->group(function ()
         {
             Route::name('ktp.')->prefix('/ktp')->group(function ()
@@ -170,9 +170,9 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
                 Route::delete('/delete/{kd_guru}', [MataPelajaranController::class, 'destroy'])->name('delete');
 
                 /**
-                 * 
+                 *
                  * Master Data Mapel Mapping to Guru
-                 * 
+                 *
                  */
                 Route::name('mapping.')->prefix('/mapping')->group(function ()
                 {
@@ -201,14 +201,14 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
             });
 
         });
-         
+
         Route::get('/dashboard', 'Admin\HomeController@index')->name('index');
 
         Route::get('/clear-cahce', function ()
         {
            Artisan::call('cache:clear');
         });
-    
+
     });
 });
 

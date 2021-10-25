@@ -21,7 +21,7 @@ class MappingJadwalPelajaranModel extends Model
     {
         return $this->where(array('kd_kelas_sub_jur' => $kd_kelas_sub_jur, 'hari' => $hari))->get();
     }
-    
+
     /**
      * Get the Kelas associated with the MappingJadwalPelajaranModel
      *
@@ -37,9 +37,9 @@ class MappingJadwalPelajaranModel extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function Mapels($kd_mapel_guru)
+    public function Mapel()
     {
-        
+        return $this->hasOne(MappingMapelToGuruModel::class, 'kd_mapping_mapel_to_guru', 'kd_mapels');
     }
 
 }

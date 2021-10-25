@@ -24,18 +24,19 @@ class GuruController extends Controller
 {
     public function __construct(
         User $userModel,
-        GuruModel $guruModel, 
+        GuruModel $guruModel,
         AutoIncrementServices $autoIncrementServices,
         UploadServices $uploadServices,
         City $cityModel
-    ) {
+    )
+    {
         $this->userModel = $userModel;
         $this->guruModel = $guruModel;
         $this->autoIncrementServices = $autoIncrementServices;
         $this->uploadServices = $uploadServices;
         $this->cityModel = $cityModel;
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -115,8 +116,8 @@ class GuruController extends Controller
         }else{
             return redirect()->back()->with('error', $request->fails());
         }
-        
-        
+
+
     }
 
     /**
@@ -145,7 +146,7 @@ class GuruController extends Controller
                 'pageTitle' => 'Edit Guru',
                 'provinces' => $citiesModel,
                 'guru'      => $guru
-            ]);        
+            ]);
         } catch (\Throwable $th) {
             return redirect()->route('admin.master.guru.index')->with('error', 'Kode Guru Tidak Ditemukan');
         }
@@ -219,15 +220,15 @@ class GuruController extends Controller
 
     /**
      * Import Guru as defined on Table [Users]
-     * 
+     *
      * @return boolean: .xlsx
      */
     public function import(ImportRequest $request)
     {
         $file = $request->file_import;
         try {
-            $path1 = $request->file('file_import')->store('temp'); 
-            $path=storage_path('app').'/'.$path1;  
+            $path1 = $request->file('file_import')->store('temp');
+            $path=storage_path('app').'/'.$path1;
             Excel::import(new GuruImport,$path);
             // Excel::import(new GuruImport, $file->getRealPath());
             return redirect()->route('admin.master.guru.index')->with(['success' => 'Berhasil Import Data Guru']);
@@ -235,12 +236,12 @@ class GuruController extends Controller
             $failures = $e->failures();
             session()->flash('error', 'error bos');
             return redirect()->back();
-        } 
+        }
     }
-    
+
     /**
      * Export Guru as defined on Table [Users]
-     * 
+     *
      * @return boolean: .xlsx
      */
     public function export()
@@ -250,7 +251,7 @@ class GuruController extends Controller
 
     /**
      * Get Kode Guru Last
-     * 
+     *
      * @return String
      */
     public function getKodeGuru()

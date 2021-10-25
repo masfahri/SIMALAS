@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMappingSiswaToKelasModelsTable extends Migration
+class CreateProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateMappingSiswaToKelasModelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('mapping_siswa_to_kelas', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('kd_mapping_siswa_to_kelas');
-            $table->string('kd_siswa');
-            $table->unsignedBigInteger('kelas_sub_jurusan_id');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ class CreateMappingSiswaToKelasModelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mapping_siswa_to_kelas');
+        Schema::dropIfExists('products');
     }
 }

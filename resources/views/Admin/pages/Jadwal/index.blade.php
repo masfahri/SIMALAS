@@ -36,7 +36,7 @@
                     <div class="mailbox-messages inbox-bx">
                         <div class="table-responsive">
                           <center><h1>Mohon Pilih Kelas</h1><center>
-                        </div>                
+                        </div>
                       <!-- /.table -->
                     </div>
                     <!-- /.mail-box-messages -->
@@ -50,7 +50,7 @@
                 <div class="box-header with-border">
                     <h4 class="box-title">Kelas</h4>
                     <ul class="box-controls pull-right">
-                    <li><a class="box-btn-slide" href="#"></a></li>	
+                    <li><a class="box-btn-slide" href="#"></a></li>
                     </ul>
                 </div>
                 <div class="box-body no-padding mailbox-nav">
@@ -71,24 +71,6 @@
                 </div>
                 <!-- /.box-body -->
             </div>
-            <!-- /.box -->
-            <div class="box">
-                <div class="box-header with-border">
-                <h4 class="box-title">Folders</h4>
-                <ul class="box-controls pull-right">
-                    <li><a class="box-btn-slide" href="#"></a></li>	
-                </ul>
-                </div>
-                <div class="box-body no-padding mailbox-nav">
-                <ul class="nav nav-pills flex-column">
-                  @foreach ($mapels as $mapel)
-                  <li class="nav-item"><a class="nav-link active" href="javascript:void(0)"><i class="ion ion-ios-email-outline"></i> Inbox
-                  @endforeach
-                </ul>
-                </div>
-                <!-- /.box-body -->
-            </div>
-            <!-- /. box -->
             </div>
             <!-- /.col -->
         </div>

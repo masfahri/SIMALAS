@@ -62,18 +62,21 @@ class JadwalController extends Controller
         try {
             DB::beginTransaction();
             $exists = $this->mappingJadwalPelajaranModel->exists($request->kd_kelas_sub_jur, $request->hari);
+            // dd($request->kd_mapping_mapel_to_guru);
             if ($exists->count() == 0) {
-                $this->createService([
-                    'model' => $this->mappingJadwalPelajaranModel,
-                    'data'  => array(
-                        'kd_mapping_jadwal_pelajaran' => $kd_jadwal_pelajaran,
-                        'hari' => $request->hari,
-                        'kd_mapels' => json_encode($request->kd_mapping_mapel_to_guru),
-                        'kd_kelas_sub_jur' => $request->kd_kelas_sub_jur
-                    ),
-                    'pageTitle' => 'Jadwal',
-                    'message' => 'Berhasil'
-                ]); 
+                for ($i=0; $i < count($request->kd_mapping_mapel_to_guru); $i++) {
+                    $this->createService([
+                        'model' => $this->mappingJadwalPelajaranModel,
+                        'data'  => array(
+                            'kd_mapping_jadwal_pelajaran' => $kd_jadwal_pelajaran,
+                            'hari' => $request->hari,
+                            'kd_mapels' => $request->kd_mapping_mapel_to_guru[$i],
+                            'kd_kelas_sub_jur' => $request->kd_kelas_sub_jur
+                        ),
+                        'pageTitle' => 'Jadwal',
+                        'message' => 'Berhasil'
+                    ]);
+                }
                 $kelas_sub_jurusan = $this->kelasSubJurusanModel::find($request->kd_kelas_sub_jur);
                 $kelas = $kelas_sub_jurusan->kd_kelas.$kelas_sub_jurusan->kd_sub_kelas;
                 DB::commit();
@@ -100,7 +103,7 @@ class JadwalController extends Controller
             'kelas'     => $this->kelasSubJurusanModel::find($id),
             'mapels'     => $this->getModel(MataPelajaranModel::class),
             'pageTitle' => $this->pageTitle
-        ]);   
+        ]);
     }
 
     /**
@@ -111,15 +114,14 @@ class JadwalController extends Controller
      */
     public function hari($id, $hari)
     {
-        $jadwal_mapel = $this->mappingJadwalPelajaranModel::where(array('kd_kelas_sub_jur' => $id, 'hari' => $hari))->first();
-        $jadwal_mapel != null ? $mappingMapelToGuru = MappingMapelToGuruModel::whereIn('kd_mapping_mapel_to_guru', json_decode($jadwal_mapel->kd_mapels))->get() : $mappingMapelToGuru = null;
+        $jadwal_mapel = $this->mappingJadwalPelajaranModel::where(array('kd_kelas_sub_jur' => $id, 'hari' => $hari))->get();
         return view('Admin.pages.Jadwal.kelas', [
-            'data'      => $mappingMapelToGuru,
+            'data'      => $jadwal_mapel,
             'kelas'     => $this->kelasSubJurusanModel::find($id),
             'mapels'    => $this->getModel(MataPelajaranModel::class),
             'pageTitle' => $this->pageTitle
         ]);
-        
+
     }
 
     /**
@@ -158,7 +160,7 @@ class JadwalController extends Controller
 
     /**
      * Get Kode Guru Last
-     * 
+     *
      * @return String
      */
     public function getKodeJadwalPelajaran()
