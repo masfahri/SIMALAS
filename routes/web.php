@@ -47,6 +47,9 @@ Route::namespace('Auth')->name('auth.')->prefix('auth/')->group(function ()
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
+require __DIR__ . '/guru.php';
+
+
 /**
  * Admin Area
  */
@@ -211,5 +214,7 @@ Route::group(['middleware' => ['role:Admin', 'auth']], function () {
 
     });
 });
+
+
 
 

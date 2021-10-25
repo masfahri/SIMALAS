@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  
+
 <!-- Sistem MAnajemen Learning And School-->
 <head>
     <meta charset="utf-8">
@@ -11,28 +11,28 @@
     <link rel="icon" href="https://www.multipurposethemes.com/admin/eduadmin-template/images/favicon.ico">
 
     <title>{{ $pageTitle }} - SIMALAS</title>
-    
+
 	<!-- Vendors Style-->
 	<link rel="stylesheet" href="{{ asset('v1/css/vendors_css.css') }}">
-	  
-	<!-- Style-->  
+
+	<!-- Style-->
 	<link rel="stylesheet" href="{{ asset('v1/css/style.css') }}">
 	<link rel="stylesheet" href="{{ asset('v1/css/skin_color.css') }}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-	 
+
 	@yield('css')
   </head>
 
 <body class="hold-transition light-skin sidebar-mini theme-primary">
-	
+
 <div class="wrapper">
   <div id="loader"></div>
-	
+
   <header class="main-header">
 	<div class="d-flex align-items-center logo-box justify-content-start">
 		<a href="#" class="waves-effect waves-light nav-link d-none d-md-inline-block mx-10 push-btn bg-transparent" data-toggle="push-menu" role="button">
 			<span class="icon-Align-left"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
-		</a>	
+		</a>
 		<!-- Logo -->
 		<a href="index.html" class="logo">
 		  <!-- logo-->
@@ -40,8 +40,8 @@
 			  <span class="light-logo"><img src="{{ asset('v1/images/simalas.png') }}" alt="logo" style="width: 50%"></span>
 			  <span class="dark-logo"><img src="../images/logo-light-text.png" alt="logo"></span>
 		  </div>
-		</a>	
-	</div>  
+		</a>
+	</div>
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top">
       <!-- Sidebar toggle button-->
@@ -67,16 +67,16 @@
 					<i class="icon-Clipboard-check"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
 			    </a>
 			</li>
-		</ul> 
+		</ul>
 	  </div>
-		
+
       <div class="navbar-custom-menu r-side">
-        <ul class="nav navbar-nav">	
+        <ul class="nav navbar-nav">
 			<li class="btn-group nav-item d-lg-inline-flex d-none">
 				<a href="#" data-provide="fullscreen" class="waves-effect waves-light nav-link full-screen" title="Full Screen">
 					<i class="icon-Expand-arrows"><span class="path1"></span><span class="path2"></span></i>
 			    </a>
-			</li>	  
+			</li>
 			<li class="btn-group d-lg-inline-flex d-none">
 				<div class="app-menu">
 					<div class="search-bx mx-5">
@@ -141,7 +141,7 @@
 				  </li>
 				  <li>
 					<a href="#">
-					  <i class="fa fa-user text-primary"></i> Nunc fringilla lorem 
+					  <i class="fa fa-user text-primary"></i> Nunc fringilla lorem
 					</a>
 				  </li>
 				  <li>
@@ -155,8 +155,8 @@
 				  <a href="#">View all</a>
 			  </li>
 			</ul>
-		  </li>	
-		  
+		  </li>
+
 	      <!-- User Account-->
           <li class="dropdown user user-menu">
             <a href="#" class="waves-effect waves-light dropdown-toggle" data-toggle="dropdown" title="User">
@@ -168,23 +168,27 @@
 				 <a class="dropdown-item" href="#"><i class="ti-wallet text-muted mr-2"></i> My Wallet</a>
 				 <a class="dropdown-item" href="#"><i class="ti-settings text-muted mr-2"></i> Settings</a>
 				 <div class="dropdown-divider"></div>
-				 <a class="dropdown-item" href="#"><i class="ti-lock text-muted mr-2"></i> Logout</a>
+                <form id="myForm" action="{{route('auth.logout')}}" method="post">
+                    {{ csrf_field() }}
+                    <a class="dropdown-item" href="#" onclick="document.getElementById('myForm').submit();"><i class="ti-lock text-muted mr-2"></i> Logout</a>
+                </form>
+				 {{-- <a class="dropdown-item" href="#"></a> --}}
               </li>
             </ul>
-          </li>	
-		  
+          </li>
+
           <!-- Control Sidebar Toggle Button -->
           <li>
               <a href="#" data-toggle="control-sidebar" title="Setting" class="waves-effect waves-light">
 			  	<i class="icon-Settings"><span class="path1"></span><span class="path2"></span></i>
 			  </a>
           </li>
-			
+
         </ul>
       </div>
     </nav>
   </header>
-  
+
   @include('layouts.module.sidebar')
   	<div id="app">
 		<App></App>
@@ -194,25 +198,25 @@
 
 
   @include('layouts.module.footer')
-  
+
   @include('layouts.module.asidebar')
-  
+
   <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
-  
+
 </div>
 <!-- ./wrapper -->
-		
+
 	@component('Components.chat')
-        
+
     @endcomponent
-	
+
 	<!-- Page Content overlay -->
-	
+
 	@yield('js')
 	<script src="{{ asset('js/app.js') }}"></script>
 
-	
+
 </body>
 
 </html>

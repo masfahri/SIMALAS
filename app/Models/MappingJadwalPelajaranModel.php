@@ -29,7 +29,7 @@ class MappingJadwalPelajaranModel extends Model
      */
     public function Kelas()
     {
-        return $this->hasOne(KelasSubJurusan::class, 'id', 'kd_kelas_sub_jur');
+        return $this->hasOne(KelasSubJurusanModel::class, 'id', 'kd_kelas_sub_jur');
     }
 
     /**

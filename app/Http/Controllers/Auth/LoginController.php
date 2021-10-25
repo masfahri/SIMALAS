@@ -24,7 +24,12 @@ class LoginController extends Controller
         $credentials = $request->except(['_token']);
         $user = User::where('email', $credentials['email']);
         if (auth()->attempt($credentials)) {
-            return redirect()->route('admin.index');
+            if (Auth::user()->hasRole('Guru')) {
+                $routes = 'guru.index';
+            }else{
+                $routes = 'admin.index';
+            }
+            return redirect()->route($routes);
         }else{
             session()->flash('error', 'Invalid Credential');
             return redirect()->back();
