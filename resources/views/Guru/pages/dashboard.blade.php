@@ -224,7 +224,7 @@
                                                 <td></td>
                                                 <td><h4>Mata Pelajaran</h4></td>
                                                 <td></td>
-                                                <td></td>
+                                                <td>Aksi</td>
                                             </tr>
                                             @forelse ($data as $items)
                                                 @forelse ($items->Jadwal as $item)
@@ -241,7 +241,9 @@
                                                             <span></span>
                                                     </td>
                                                     <td class="mailbox-attachment"></td>
-                                                    <td class="mailbox-date"></td>
+                                                    <td class="mailbox-date">
+                                                        <a href="{{route('guru.materi.show', [$item->Kelas->kd_kelas, $item->kd_mapels])}}">Materi</a>
+                                                    </td>
                                                 </tr>
                                                 @empty
                                                 <tr>
