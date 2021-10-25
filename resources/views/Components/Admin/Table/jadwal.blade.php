@@ -1,7 +1,6 @@
 <table class="table table-hover table-striped">
   <tbody>
-      @foreach ($data as $item)
-      {{-- @dd() --}}
+      @forelse ($data as $item)
       <tr>
         <td><input type="checkbox"></td>
         <td class="mailbox-star"><a href="#"><i class="fa fa-star text-yellow"></i></a></td>
@@ -12,7 +11,9 @@
         <td class="mailbox-attachment"></td>
         <td class="mailbox-date">2:45 PM</td>
       </tr>
+      @empty
+        <center><h1>Jadwal Belum Tersedia</h1></center>
+      @endforelse
 
-      @endforeach
   </tbody>
 </table>
