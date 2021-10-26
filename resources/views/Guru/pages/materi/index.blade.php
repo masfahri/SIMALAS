@@ -18,6 +18,22 @@
                                 </div>
                             </div>
                         </div>
+                        @if ($errors->any())
+                        <center>
+                            <span class="badge badge-danger w-100"
+                                style="padding: 4px; margin: 10px; width: 100% !important">
+                                @foreach ($errors->all() as $error) {{
+                                $error
+                                }}
+                                @endforeach
+                            </span>
+                        </center>
+                        @endif
+                        @if (session('success'))
+                        <center><span class="badge badge-success w-100"
+                                style="padding: 4px; margin: 10px; width: 100% !important">{{ session('success')
+                                }}</span></center>
+                        @endif
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="mailbox-controls">
@@ -37,10 +53,43 @@
                                 <!-- /.pull-right -->
                             </div>
                             <div class="mailbox-messages inbox-bx">
-                                <div class="table-responsive">
+                                <div class="card-deck">
+                                    @foreach ($data as $item)
+                                    <a href="{{asset(json_decode($item->value)->path.'/'.json_decode($item->value)->filename)}}">
+                                        <div class="card text-center">
 
+                                            @if (json_decode($item->value)->extention == 'mov')
+                                            <video width="300" height="240" controls>
+                                                <source src="{{asset(json_decode($item->value)->path.'/'.json_decode($item->value)->filename)}}" type="video/mp4">
+                                            </video>
+                                            @else
+                                            <embed
+                                                src="{{asset(json_decode($item->value)->path.'/'.json_decode($item->value)->filename)}}"
+                                                type="application/pdf"
+                                                scrolling="auto"
+                                                height="100%"
+                                                width="100%"
+                                            ></embed>
+                                            @endif
+                                            <div class="card-body">
+                                                <h4 class="card-title b-0 px-0">{{$item->Materi->judul_materi}}</h4>
+                                                <p>{{$item->Materi->deskripsi_materi}}</p>
+                                            </div>
+                                            {{-- <div class="card-footer justify-content-between d-flex">
+                                                <span class="text-muted">Last updated 3 mins ago</span>
+                                                <span>
+                                                    <i class="fa fa-star text-warning"></i>
+                                                    <i class="fa fa-star text-warning"></i>
+                                                    <i class="fa fa-star text-warning"></i>
+                                                    <i class="fa fa-star text-warning"></i>
+                                                    <i class="fa fa-star-half text-warning"></i>
+                                                    <span class="text-muted ml-2">(12)</span>
+                                                </span>
+                                            </div> --}}
+                                        </div>
+                                    </a>
+                                    @endforeach
                                 </div>
-                                <!-- /.table -->
                             </div>
                             <!-- /.mail-box-messages -->
                         </div>
@@ -58,7 +107,8 @@
                         </div><br>
                         <div class="box-body no-padding mailbox-nav">
                             <div class="container">
-                                <form action="{{route('guru.materi.store')}}" method="post">
+                                <form action="{{route('guru.materi.store')}}" method="post"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     {!! Form::hidden('kd_guru_mapel', Request::segment(5), null) !!}
                                     {!! Form::hidden('kd_kelas', Request::segment(4), null) !!}
@@ -72,6 +122,12 @@
                                         <h5>Deskripsi Materi <span class="text-danger">*</span></h5>
                                         <div class="controls">
                                             {!! Form::textarea('deskripsi_materi', '', ['class' => 'form-control']) !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h5>File Materi <span class="text-danger">*</span></h5>
+                                        <div class="controls">
+                                            {!! Form::file('fileUpload', ['class' => 'form-control']) !!}
                                         </div>
                                     </div>
                                     <input type="submit" value="Simpan" class="btn btn-primary float-right">

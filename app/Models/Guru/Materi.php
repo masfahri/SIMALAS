@@ -2,7 +2,9 @@
 
 namespace App\Models\Guru;
 
+use App\Models\FileUpload;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -31,6 +33,16 @@ class Materi extends Model
      */
     public function Mapel(): BelongsTo
     {
-        return $this->belongsTo(MataPelajaranModel::class, 'kd_mapel', 'kd_mapel');
+        return $this->hasOne(MataPelajaranModel::class, 'kd_mapel', 'kd_mapel');
+    }
+
+    /**
+     * Get all of the FileUpload for the Materi
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function FileUpload(): HasMany
+    {
+        return $this->hasMany(FileUpload::class, 'parent_id', 'kd_materi');
     }
 }
