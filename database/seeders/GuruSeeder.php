@@ -33,7 +33,7 @@ class GuruSeeder extends Seeder
                 'email' => 'guru.kelas.x1@simalas.com',
                 'password' => bcrypt('asdasdasd')
             ]);
-
+            $guru1->assignRole('Guru');
             GuruModel::create([
                 'kd_guru'      => $this->getKodeGuru(),
                 'user_id'       => $guru1->id,
@@ -53,6 +53,7 @@ class GuruSeeder extends Seeder
                 'email' => 'guru.kelas.x2@simalas.com',
                 'password' => bcrypt('asdasdasd')
             ]);
+            $guru2->assignRole('Guru');
             GuruModel::create([
                 'kd_guru'      => $this->getKodeGuru(),
                 'user_id'       => $guru2->id,
@@ -72,6 +73,7 @@ class GuruSeeder extends Seeder
                 'email' => 'guru.kelas.x3@simalas.com',
                 'password' => bcrypt('asdasdasd')
             ]);
+            $guru3->assignRole('Guru');
             GuruModel::create([
                 'kd_guru'      => $this->getKodeGuru(),
                 'user_id'       => $guru3->id,
@@ -86,13 +88,16 @@ class GuruSeeder extends Seeder
                 'pas_foto'      => 'null'
             ]);
 
+            
+
+
             for ($i=1; $i < 100; $i++) {
                 $user = User::create([
                     'name'      => $faker->name($gender),
                     'email'     => $faker->email,
                     'password'  => Hash::make('rahasia')
                 ]);
-                $user->assignRole('Siswa');
+                $user->assignRole('Guru');
                 $siswa = GuruModel::create([
                     'kd_guru'      => $this->getKodeGuru(),
                     'user_id'       => $user->id,
