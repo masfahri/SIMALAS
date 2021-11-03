@@ -16,7 +16,7 @@ class CreateTugasDetailsTable extends Migration
         Schema::create('tugas_detail', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tugas_id');
-            $table->timestamps('akhir_pengumpulan');
+            $table->datetime('akhir_pengumpulan');
             $table->timestamps();
         });
     }
