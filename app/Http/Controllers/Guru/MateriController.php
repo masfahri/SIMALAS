@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Guru;
 
+use App\Models\FileUpload;
 use App\Models\Guru\Materi;
 use Illuminate\Http\Request;
+use App\Services\UploadServices;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\FileUpload;
 use App\Services\AutoIncrementServices;
+use App\Transaction\Constants\FileUploadKey;
 
 class MateriController extends Controller
 {
@@ -39,40 +41,42 @@ class MateriController extends Controller
      */
     public function store(Request $request)
     {
-        $materis = new Materi();
-        $materi = $materis::where(['kd_guru_mapel' => $request->kd_guru_mapel, 'kd_kelas' => $request->kd_kelas]);
-        if ($materi->count() == 0) {
-            try {
-                DB::beginTransaction();
-                $materi = Materi::create([
-                    'kd_materi' => $this->getKodeMateri(),
-                    'kd_guru_mapel' => $request->kd_guru_mapel,
-                    'kd_kelas'  => $request->kd_kelas,
-                    'judul_materi'  => $request->judul_materi,
-                    'deskripsi_materi'  => $request->deskripsi_materi
-                ]);
-
+        $this->validate($request, [
+			'fileUpload' => 'mimes:mp4,flv,mov,pdf,doc,docx,ppt,pptx',
+		]);
+        try {
+            DB::beginTransaction();
+            $materi = Materi::create([
+                'kd_materi' => $this->getKodeMateri(),
+                'kd_guru_mapel' => $request->kd_guru_mapel,
+                'kd_kelas'  => $request->kd_kelas,
+                'judul_materi'  => $request->judul_materi,
+                'deskripsi_materi'  => $request->deskripsi_materi
+            ]);
+            $uploadService = new UploadServices();
+            $fileUpload = $uploadService->handleUploadtoSpecifiedFolder([
+                'file' => $request->file('fileUpload'),
+                'folder_name' => $request->kd_kelas.'/'.auth()->user()->name,
+                'file_name' => $request->judul_materi
+            ]);
+            if ($fileUpload['success']) {
                 FileUpload::create([
                     'user_id' => auth()->user()->id,
                     'parent_id' => $materi->kd_materi,
-                    'key' => 'Materi',
-                    'value' => 'Video Materi'
+                    'key' => FileUploadKey::MATERI,
+                    'value' =>  json_encode([
+                        'filename'  => $fileUpload['fileName'],
+                        'path'      => $fileUpload['path'],
+                        'extention' => $fileUpload['extention']
+                    ])
                 ]);
-                DB::commit();
-                return redirect()->back()->with('success', 'Materi baru dengan nama '.$request->judul_materi.' Berhasil Ditambahkan');
-            } catch (\Throwable $th) {
-                dd($th->getMessage());
-                DB::rollback();
             }
-        }else{
-            FileUpload::create([
-                'user_id' => auth()->user()->id,
-                'parent_id' => $materi->first()->kd_materi,
-                'key' => 'Materi',
-                'value' => 'Video Materi'
-            ]);
+            DB::commit();
             return redirect()->back()->with('success', 'Materi baru dengan nama '.$request->judul_materi.' Berhasil Ditambahkan');
-
+        } catch (\Throwable $th) {
+            DB::rollback();
+            dd($th->getMessage());
+            return redirect()->back()->with('error', 'Materi tidak berhasil ditambah bcs'.$th->getMessage());
         }
     }
 
@@ -85,7 +89,8 @@ class MateriController extends Controller
     public function show($kd_kelas, $kd_mapel)
     {
         $pageTitle = 'Materi';
-        return view('Guru.pages.materi.index', compact('pageTitle'));
+        $data = FileUpload::where('user_id', auth()->user()->id)->get();
+        return view('Guru.pages.materi.index', compact('pageTitle', 'data'));
     }
 
     /**

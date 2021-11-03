@@ -22,10 +22,6 @@ class GuruSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
         $gender = $faker->randomElement(['male', 'female']);
-        $kd_guru = 0000;
-        $nip = 11200000;
-
-        
         try {
             DB::beginTransaction();
             $guru1 = User::create([
@@ -67,7 +63,7 @@ class GuruSeeder extends Seeder
                 'nama_ayah'     => $faker->name($gender),
                 'pas_foto'      => 'null'
             ]);
-            
+
             $guru3 = User::create([
                 'name' => 'Guru Kelas X-3',
                 'email' => 'guru.kelas.x3@simalas.com',
@@ -99,9 +95,9 @@ class GuruSeeder extends Seeder
                 ]);
                 $user->assignRole('Guru');
                 $siswa = GuruModel::create([
-                    'kd_guru'      => $this->getKodeGuru(),
+                    'kd_guru'       => $this->getKodeGuru(),
                     'user_id'       => $user->id,
-                    'nip'          => $faker->unique()->numberBetween(559100, 559200),
+                    'nip'           => $faker->unique()->numberBetween(559100, 559200),
                     'jenis_kelamin' => $faker->randomElement(['L', 'P']),
                     'flag'          => $faker->randomElement(['active', 'de-active']),
                     'tanggal_lahir' => $faker->dateTimeBetween('1990-01-01', '2000-12-31')->format('Y-m-d'),
@@ -116,7 +112,6 @@ class GuruSeeder extends Seeder
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollback();
-            print($th->getMessage());
         }
 
     }
