@@ -17,7 +17,6 @@ class CreateMappingMapelModelsTable extends Migration
             $table->id();
             $table->string('kd_mapel');
             $table->string('kd_guru');
-            $table->timestamps();
         });
     }
 

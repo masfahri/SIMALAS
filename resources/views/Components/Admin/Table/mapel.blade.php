@@ -28,7 +28,7 @@
                 @foreach ($data['mapel'] as $item)
                 <tr>
                     <td>{{ $item->kd_mapel }}</td>
-                    <td>({{ $item->summon }}) - {{ $item->nama_mapel }}</td>
+                    <td>({{ $item->summon }}) - {{ $item->nama_mapel }} <br>[ {{$item->Gurus->count()}} - Guru ]</td>
                     <td>
                         <a href="#" data-id="{{ $item->id }}" data-toggle="modal" id="edit-mapel" data-target="#modal-edit" data-toggle="tooltip" data-placement="top"><span class="fa fa-edit fa-lg" style="font-size: 20"></span></a>
                         <a href="{{ route('admin.master.mapel.mapping.index', $item->kd_mapel) }}"><span class="fa fa-user fa-lg" style="font-size: 20"></span></a>
@@ -53,16 +53,15 @@
     </div>
     <!-- /.box-body -->
   </div>
-  <!-- /.box -->   
+  <!-- /.box -->
 @component('Components.Admin.Modal.mapel.create', [
     'pageTitle' => $pageTitle,
 ])
-    
+
 @endcomponent
 
 @component('Components.Admin.Modal.mapel.edit', [
     'pageTitle' => $pageTitle,
 ])
-    
+
 @endcomponent
-  

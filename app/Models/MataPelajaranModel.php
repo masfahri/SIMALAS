@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class MataPelajaranModel extends Model
 {
@@ -37,4 +38,14 @@ class MataPelajaranModel extends Model
         'summon.unique' => 'Nama Kode Mapel Harus Unik',
         'nama_mapel.required'    => 'Mapel Dibutuhkan',
     ];
+
+    /**
+     * Get all of the Gurus for the MataPelajaranModel
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function Gurus(): HasMany
+    {
+        return $this->hasMany(MappingMapelToGuruModel::class, 'kd_mapel', 'kd_mapel');
+    }
 }

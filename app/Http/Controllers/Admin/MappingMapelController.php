@@ -56,10 +56,8 @@ class MappingMapelController extends Controller
      */
     public function store(Request $request)
     {
-        
+        for ($i=0; $i < count($request->kd_guru); $i++) {
 
-        for ($i=0; $i < count($request->kd_guru); $i++) { 
-            
             $exists = $this->checkService([
                 'model' => $this->mappingMapelToGuruModel,
                 'data'  => array(
@@ -69,7 +67,7 @@ class MappingMapelController extends Controller
                 'pageTitle' => $this->pageTitle,
                 'message'   => 'Guru '.$request->kd_guru[$i].' dan Mata Pelajaran '.$request->kd_mapel.' Sudah di Mapping'
             ]);
-            
+
             $mapel = $this->mapelModel::where('kd_mapel', $request->kd_mapel)->first();
             if (!$exists) {
                 count($this->mappingMapelToGuruModel::all()) == 0 ? $data = 0 : $data = $this->mappingMapelToGuruModel->latest('kd_mapping_mapel_to_guru')->first()->kd_mapping_mapel_to_guru;
@@ -84,7 +82,7 @@ class MappingMapelController extends Controller
                     'pageTitle' => $this->pageTitle,
                     'message' => 'Berhasil'
                 ]);
-                
+
             }else{
                 $message[$i] = 'Guru '.$request->kd_guru[$i].' dan Mata Pelajaran '.$mapel->nama_mapel.' Sudah di Mapping';
                 $create = redirect()->back()->with(['error' => $message]);
@@ -106,7 +104,7 @@ class MappingMapelController extends Controller
 
     /**
      * Display all Guru from kd_mapel
-     * 
+     *
      * @param String $kd_mapel
      * @return Collection Mapping Mapel to Guru Model
      */

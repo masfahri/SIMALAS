@@ -21,9 +21,7 @@ class MataPelajaranController extends Controller
      */
     public function index()
     {
-        $data = $this->mataPelajaranModel::all();
-        // $guru = $this->guruModel::leftJoin('mapping_siswa_to_kelas', 'siswa.kd_siswa', '=', 'mapping_siswa_to_kelas.kd_siswa')
-        // ->where('mapping_siswa_to_kelas.kd_siswa')->get();
+        $data = $this->mataPelajaranModel::get();
         return view('Admin.pages.mapel.index', [
             'pageTitle' => 'Mata Pelajaran',
             'data'      => array('mapel' => $data)
@@ -64,7 +62,7 @@ class MataPelajaranController extends Controller
             ]); return $create;
         } return redirect()->back()->with(['error' => 'Nama Mapel atau Kode Mapel Sudah Ada']);
 
-               
+
     }
 
     /**

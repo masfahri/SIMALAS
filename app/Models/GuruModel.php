@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class GuruModel extends Model
 {
@@ -48,20 +49,13 @@ class GuruModel extends Model
         return $this->join('users', 'guru.user_id', '=', 'users.id')->get();
     }
 
-    public function MataPelajaran()
+    /**
+     * Get all of the Matapelajarans for the GuruModel
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function Matapelajarans(): HasMany
     {
         return $this->hasMany(MappingMapelToGuruModel::class, 'kd_guru', 'kd_guru');
-    }
-
-    public function MappingMataPelajaran($where)
-    {
-        return $this->leftJoin('mapping_mapel_to_guru', 'guru.kd_guru', '=', 'mapping_mapel_to_guru.kd_guru')
-        ->where(array('mapping_mapel_to_guru.kd_guru' => 'null'))->get();
-    }
-
-    public function MappingKelasJurusan()
-    {
-        return $this->leftJoin('kelas_sub_jurusan', 'guru.kd_guru', '=', 'kelas_sub_jurusan.kd_guru')
-        ->where('kelas_sub_jurusan.kd_guru')->get();
     }
 }

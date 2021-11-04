@@ -5,7 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class CRUDServices 
+class CRUDServices
 {
     /**
      * handleExists for Check Data
@@ -63,7 +63,7 @@ class CRUDServices
         }
     }
 
-    
+
     /**
      * handleUpdate for Delete Data
      * @param $params
